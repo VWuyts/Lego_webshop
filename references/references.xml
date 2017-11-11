@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<references>
+  <reference>
+    <type></type>
+    <author>
+      <surname></surname>
+      <name></name>
+    </author>
+    <title></title>
+    <year></year>
+    <organisation></organisation>
+    <url></url>
+    <urlDate></urlDate>
+  </reference>
+
+  <reference>
+    <type>online</type>
+    <author>
+      <surname>Achour</surname>
+      <name>Mehdi</name>
+    </author>
+    <author>
+      <surname>Betz</surname>
+      <name>Friedhelm</name>
+    </author>
+    <author>
+      <surname>Dovgal</surname>
+      <name>Antony</name>
+    </author>
+    <author>
+      <surname>Lopes</surname>
+      <name>Nuno</name>
+    </author>
+    <author>
+      <surname>Magnusson</surname>
+      <name>Hannes</name>
+    </author>
+    <author>
+      <surname>Richter</surname>
+      <name>Georg</name>
+    </author>
+    <author>
+      <surname>Seguy</surname>
+      <name>Damien</name>
+    </author>
+    <author>
+      <surname>Vrana</surname>
+      <name>Jakub</name>
+    </author>
+    <title>PHP Manual</title>
+    <year>2017</year>
+    <organisation>The PHP Documentation Group</organisation>
+    <url>http://www.php.net/manual/en/</url>
+    <urlDate>2017-11-09</urlDate>
+  </reference>
+
+  <reference>
+    <type>online</type>
+    <author>
+      <surname>Apache Friends</surname>
+    </author>
+    <title>XAMPP</title>
+    <year>2017</year>
+    <url>https://www.apachefriends.org/index.html</url>
+    <urlDate>2017-11-09</urlDate>
+  </reference>
+
+   <reference>
+    <type>online</type>
+    <author>
+      <surname>LEGO System A/S</surname>
+    </author>
+    <title>Lego shop</title>
+    <year>2017</year>
+    <url>https://shop.lego.com/en-BE/</url>
+    <urlDate>2017-11-09</urlDate>
+  </reference>
+
+  <reference>
+    <type>online</type>
+    <author>
+      <surname>Meyer</surname>
+      <name>Eric A</name>
+      <surname>Meyer</surname>
+      <name>Kathryn S.</name>
+    </author>
+    <title>CSS Tools: Reset CSS</title>
+    <year>2011</year>
+    <url>https://meyerweb.com/eric/tools/css/reset/</url>
+    <urlDate>2017-11-09</urlDate>
+  </reference>
+
+  <reference>
+    <type>online</type>
+    <author>
+      <surname>W3C</surname>
+    </author>
+    <title>CSS Validation Service</title>
+    <year>2009</year>
+    <url>http://jigsaw.w3.org/css-validator/</url>
+    <urlDate>2017-11-09</urlDate>
+  </reference>
+
+  <reference>
+    <type>online</type>
+    <author>
+      <surname>W3C</surname>
+    </author>
+    <title>Markup Validation Service</title>
+    <year>2013</year>
+    <url>http://validator.w3.org/#validate_by_input</url>
+    <urlDate>2017-11-09</urlDate>
+  </reference>
+  
+  <reference>
+    <type>online</type>
+    <author>
+      <surname>W3Schools.com</surname>
+    </author>
+    <title>CSS Tutorial</title>
+    <year>2017</year>
+    <url>https://www.w3schools.com/css/default.asp</url>
+    <urlDate>2017-11-09</urlDate>
+  </reference>
+
+  <reference>
+    <type>online</type>
+    <author>
+      <surname>W3Schools.com</surname>
+    </author>
+    <title>HTML5 Tutorial</title>
+    <year>2017</year>
+    <url>https://www.w3schools.com/html/default.asp</url>
+    <urlDate>2017-11-09</urlDate>
+  </reference>
+
+  <reference>
+    <type>online</type>
+    <author>
+      <surname>W3Schools.com</surname>
+    </author>
+    <title>PHP 5 Tutorial</title>
+    <year>2017</year>
+    <url>https://www.w3schools.com/php/default.asp</url>
+    <urlDate>2017-11-09</urlDate>
+  </reference>
+
+</references>
