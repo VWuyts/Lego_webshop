@@ -79,6 +79,17 @@
   <reference>
     <type>online</type>
     <author>
+      <surname>MariaDB</surname>
+    </author>
+    <title>MariaDB Documentation</title>
+    <year>2017</year>
+    <url>https://mariadb.com/kb/en/library/documentation/</url>
+    <urlDate>2017-11-11</urlDate>
+  </reference>
+
+  <reference>
+    <type>online</type>
+    <author>
       <surname>Meyer</surname>
       <name>Eric A</name>
       <surname>Meyer</surname>
@@ -132,6 +143,17 @@
     <year>2017</year>
     <url>https://www.w3schools.com/html/default.asp</url>
     <urlDate>2017-11-09</urlDate>
+  </reference>
+
+  <reference>
+    <type>online</type>
+    <author>
+      <surname>W3Schools.com</surname>
+    </author>
+    <title>SQL Tutorial</title>
+    <year>2017</year>
+    <url>https://www.w3schools.com/sql/default.asp</url>
+    <urlDate>2017-11-11</urlDate>
   </reference>
 
   <reference>
