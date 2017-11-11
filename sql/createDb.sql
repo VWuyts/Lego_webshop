@@ -19,7 +19,7 @@
 	userID INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	surname VARCHAR(50) NOT NULL,
 	firstName VARCHAR(50) NOT NULL,
-	role ENUM("admin", "klant") NOT NULL,
+	role ENUM("admin", "customer") NOT NULL,
 	email VARCHAR(255) NOT NULL,
 	passw VARCHAR(64) NOT NULL, -- password is included in list of keywords and reserved words
 	isActive BOOLEAN NOT NULL DEFAULT 1,
@@ -71,7 +71,7 @@
 	orderDate DATE NOT NULL,
 	userID INT UNSIGNED NOT NULL,
 	isPayed BOOLEAN NOT NULL DEFAULT 0,
-	orderStatus ENUM("in_behandeling", "verzonden", "geleverd") NOT NULL, -- status is included in list of keywords and reserved words
+	orderStatus ENUM("processing", "shipped", "delivered") NOT NULL, -- status is included in list of keywords and reserved words
 	invoiceAddressID INT UNSIGNED NOT NULL,
 	shipAddressID INT UNSIGNED NOT NULL,
 	shipCostID INT UNSIGNED NOT NULL,
@@ -91,7 +91,7 @@
 	UNIQUE (tName)
  );
  
-  /* Create table sort */
+ /* Create table sort */
  DROP TABLE IF EXISTS sort;
  CREATE TABLE sort (
 	sortID INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -100,7 +100,7 @@
 	UNIQUE (sName)
  );
  
-  /* Create table label */
+/* Create table label */
  DROP TABLE IF EXISTS label;
  CREATE TABLE label (
 	labelID INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -118,7 +118,7 @@
 	 minAge TINYINT(2) UNSIGNED NOT NULL DEFAULT 4,
 	 description TEXT NOT NULL,
 	 isActive BOOLEAN NOT NULL DEFAULT 1,
-	 category ENUM("bouwdoos", "accessoire") NOT NULL,
+	 category ENUM("sets", "extras") NOT NULL,
 	 pieces SMALLINT UNSIGNED,
 	 themeID INT UNSIGNED,
 	 sortID INT UNSIGNED,
@@ -130,7 +130,7 @@
 	 UNIQUE (pName)
  );
  
-  /* Create table orderDetail */
+/* Create table orderDetail */
  DROP TABLE IF EXISTS orderDetail;
  CREATE TABLE orderDetail (
 	orderno INT UNSIGNED NOT NULL,
