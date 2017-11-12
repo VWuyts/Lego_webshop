@@ -112,7 +112,7 @@
  /* Create table product */
  DROP TABLE IF EXISTS product;
  CREATE TABLE product (
-     productno MEDIUMINT(5) UNSIGNED NOT NULL,
+     productno MEDIUMINT(7) UNSIGNED NOT NULL,
 	 pName VARCHAR(50) NOT NULL,
 	 price DECIMAL(6,2) UNSIGNED NOT NULL,
 	 minAge TINYINT(2) UNSIGNED NOT NULL DEFAULT 4,
