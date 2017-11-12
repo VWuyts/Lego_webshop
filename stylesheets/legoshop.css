@@ -1,0 +1,51 @@
+/* Lego Webshop
+ *
+ * Lab assignment for course PHP & MySQL 2017
+ * Thomas More campus De Nayer
+ * Bachelor Elektronica-ICT -- Application Development
+ * 
+ * Véronique Wuyts
+ */
+
+#wrapper{
+    margin:0px auto 0px auto;
+    min-width:805px;
+    max-width:1500px;
+}
+
+.spacer{
+	clear:both;
+}
+
+footer{
+	clear:both;
+	color:#fff;
+	font-size:11px;
+	text-align:center;
+	padding:10px 20px 0px 20px;
+	background-color:#f00;
+}
+footer p{
+	padding-bottom:5px;
+}
+#footercenter{
+	float:right;
+	width:160px;
+	margin-right:140px;
+}
+#logolego{
+	width:40px;
+	margin-bottom:5px;
+}
+#footerright{
+	text-align:right;
+	float:right;
+	width:440px;
+}
+#footerright p{
+	margin-right:70px;
+}
+#logotm{
+	float:right;
+	width:60px;
+}
