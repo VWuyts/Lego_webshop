@@ -148,5 +148,7 @@ VALUES  (853465, "Upscaled Mug", 9.99, 5, "Imagine that you're part of the LEGO 
         (5004264, "Lego 1x2 Brick key Light (Red)", 8.99, 5, "Light the way to all your building adventures with the iconic red LEGO 1x2 Brick Key Light. Sturdy metal ring makes this super-bright, LED flashlight a great backpack charm, or keeps it secure on your key chain. Features an easy-to-turn-on-and-off momentary switch. Makes a great gift for LEGO fans!",
             1, "extras"),
         (853575, "Minifigure Cake Mold", 14.99, 3, "Have a party and bring out the coolest cake in town! Bake up a tasty treat in one of your favorite LEGO shapes with this easy to use, easy to remove silicone baking mold that can be used in both the oven and microwave, and cleans up quickly in the dishwasher. Bring a minifigure to life with this fun cake mold!", 
+            1, "extras"),
+        (853669, "Lego Shopper Bag", 5.99, 3, "Say goodbye to disposable carrier bags with this large reusable LEGO Shopper Bag, produced in a sturdy, non-woven laminated fabric printed with a colorful LEGO brick design. This environmentally friendly bag is built to last, with plenty of room for your next LEGO shopping trip.", 
             1, "extras")
 ;
