@@ -1,4 +1,13 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<!--
+  Lego Webshop
+    
+  Lab assignment for course PHP & MySQL 2017
+  Thomas More campus De Nayer
+  Bachelor Elektronica-ICT -- Application Development
+
+  Véronique Wuyts 
+-->
+<?xml version="1.0" encoding="UTF-8"?>
 <references>
   <reference>
     <type></type>
@@ -99,6 +108,17 @@
     <year>2011</year>
     <url>https://meyerweb.com/eric/tools/css/reset/</url>
     <urlDate>2017-11-09</urlDate>
+  </reference>
+
+  <reference>
+    <type>online</type>
+    <author>
+      <surname>ProDraw Graphics</surname>
+    </author>
+    <title>Free Online *.ICO Icon Generator</title>
+    <year>2017</year>
+    <url>http://www.prodraw.net/favicon/</url>
+    <urlDate>2017-11-12</urlDate>
   </reference>
 
   <reference>
