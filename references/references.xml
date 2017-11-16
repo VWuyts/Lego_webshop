@@ -1,13 +1,13 @@
-﻿<!--
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
   Lego Webshop
     
   Lab assignment for course PHP & MySQL 2017
   Thomas More campus De Nayer
-  Bachelor Elektronica-ICT -- Application Development
+  Bachelor Elektronica-ICT option Application Development
 
   Véronique Wuyts 
 -->
-<?xml version="1.0" encoding="UTF-8"?>
 <references>
   <reference>
     <type></type>
@@ -61,6 +61,15 @@
     <organisation>The PHP Documentation Group</organisation>
     <url>http://www.php.net/manual/en/</url>
     <urlDate>2017-11-09</urlDate>
+  </reference>
+
+  <reference>
+    <type>software</type>
+    <author>
+      <surname>Adobe Systems Incorporated</surname>
+    </author>
+    <title>Adobe Photoshop Elements 13</title>
+    <year>2014</year>
   </reference>
 
   <reference>

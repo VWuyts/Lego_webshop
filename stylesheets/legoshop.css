@@ -8,44 +8,136 @@
  */
 
 #wrapper{
-    margin:0px auto 0px auto;
-    min-width:805px;
-    max-width:1500px;
+    margin: 0px auto;
+    min-width: 805px;
+	max-width: inherit;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	color:#2c2c2c;
 }
-
+.center{
+	margin: 0px auto;
+    min-width: 805px;
+    max-width: 1200px;
+}
 .spacer{
-	clear:both;
+	clear: both;
+}
+a{
+	text-decoration: none;
+	color: inherit;
 }
 
+/* header */
+#topbar{
+	color: #fff;
+	background-color: #000;
+	height: 30px;
+	vertical-align: middle;
+	font-size: 12px;
+	font-weight: bold;
+}
+#legocom{
+	line-height: 30px;
+}
+#redbrick{
+	width: 20px;
+	float: left;
+	margin: 2px 5px 2px 2px;
+}
+#topbar a{
+	display: inline-block;
+	margin-right: 40px;
+}
+#topmenu a{
+	display: block;
+	background-color: transparent;
+	margin: 0px;
+}
+#topmenu li{
+	width: 11em;
+	float: right;
+	line-height: 30px;
+	text-align: center;
+}
+#topmenu li ul{
+	position:absolute;
+	width:11em;
+	left:-999em;
+}
+#topmenu li.float ul{
+	left: auto;
+	z-index:100;
+}
+#topmenu li.float, #topmenu li.float ul li{
+	color: #2c2c2c;
+	background-color: #f2f2f2;
+	border-top: 1px solid #d9d9d9;
+}
+#topmenu li.float ul li:hover{
+	color: #06c;
+}
+#nojs{
+	text-align: right;
+}
+#menu{
+	background-color: #fc0;
+	box-shadow: 0px 0px 15px 5px #cca300 inset;
+}
+#legoshop{
+	width: 200px;
+	height: 60px;
+}
+#shoplogo{
+	width: 50px;
+	margin: 5px 10px 5px 0px;
+	float: left;
+}
+#shop{
+	color:#06c;
+	font-size: 30px;
+	font-weight: bold;
+	line-height: 60px;
+	text-shadow: -1px 0 #06c, 0 1px #06c, 1px 0 #06c, 0 -1px #06c;
+}
+
+/* content */
+#content{
+	padding: 20px 0px;
+	background-color: #fff;
+}
+
+/* footer */
 footer{
-	clear:both;
-	color:#fff;
-	font-size:11px;
-	text-align:center;
-	padding:10px 20px 0px 20px;
-	background-color:#f00;
+	clear: both;
+	color: #fff;
+	font-size: 11px;
+	text-align: center;
+	padding: 10px 20px 0px 20px;
+	background-color: #f00;
+	box-shadow: 0px 0px 15px 5px #c00 inset;
 }
 footer p{
-	padding-bottom:5px;
+	padding-bottom: 5px;
 }
 #footercenter{
-	float:right;
-	width:160px;
-	margin-right:140px;
+	float: right;
+	width: 160px;
+	margin-right: 140px;
 }
 #logolego{
-	width:40px;
-	margin-bottom:5px;
+	width: 40px;
+	margin-bottom: 5px;
 }
 #footerright{
-	text-align:right;
-	float:right;
-	width:440px;
+	text-align: right;
+	float: right;
+	width: 440px;
+	margin-top: 5px;
 }
 #footerright p{
-	margin-right:70px;
+	margin-right: 70px;
 }
 #logotm{
-	float:right;
-	width:60px;
+	float: right;
+	width: 60px;
 }

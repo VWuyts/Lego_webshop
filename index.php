@@ -9,8 +9,12 @@
  */
 
     require("php/functions.php");
-    createHead(false, "Legoshop", [""], NULL);
-    createHeader(false, false);
-
+    createHead(false, "Legoshop", NULL, NULL);
+    createHeader(false, "Nik");
+?>
+<p>
+    blablbla
+</p>
+<?php
     createFooter(false);
 ?>
