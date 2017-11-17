@@ -10,10 +10,10 @@
 
     require("php/functions.php");
     createHead(false, "Legoshop", NULL, NULL);
-    createHeader(false, "Nik");
+    createHeader(false, NULL);
 ?>
 <p>
-    blablbla
+    blablabla
 </p>
 <?php
     createFooter(false);

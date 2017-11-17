@@ -22,9 +22,21 @@
 .spacer{
 	clear: both;
 }
+.textCenter{
+	text-align: center;
+}
 a{
 	text-decoration: none;
 	color: inherit;
+}
+h1{
+	padding-bottom: 30px;
+	font-size: 25px;
+	font-weight: bold;
+}
+hr{
+	border: 1px solid #f2f2f2;
+	margin: 0px 0px 20px 0px;
 }
 
 /* header */
@@ -39,7 +51,7 @@ a{
 #legocom{
 	line-height: 30px;
 }
-#redbrick{
+#redBrick{
 	width: 20px;
 	float: left;
 	margin: 2px 5px 2px 2px;
@@ -54,10 +66,14 @@ a{
 	margin: 0px;
 }
 #topmenu li{
-	width: 11em;
+	width: 10em;
 	float: right;
 	line-height: 30px;
-	text-align: center;
+}
+#topmenu li img{
+	height: 20px;
+	padding: 5px;
+	float: left;
 }
 #topmenu li ul{
 	position:absolute;
@@ -73,19 +89,49 @@ a{
 	background-color: #f2f2f2;
 	border-top: 1px solid #d9d9d9;
 }
-#topmenu li.float ul li:hover{
+#topmenu li.float ul li{
+	font-size: 14px;
+	width: 250px;
+	padding-top: 10px;
+}
+#topmenu li.float ul li a:hover{
 	color: #06c;
 }
-#nojs{
-	text-align: right;
+#topmenu #loginBtn{
+	font-family: inherit;
+    font-size: 14px;
+    line-height: 20px;
+    color: #fff;
+    background-color: #06c;
+	border: 1px solid #004d99;
+	border-radius: 3px;
+	box-sizing: border-box;
+	width: 200px;
+	padding: 5px 0px;
+	margin: 0px 25px 10px 25px;
+}
+#topmenu #loginBtn:hover{
+	background-color: #004d99;
+}
+#topmenu #ninja{
+	height: 60px;
+	padding-right: 15px;
+}
+#topmenu #truck{
+	height: 30px;
+	padding-right: 15px;
+}
+.lightGrey{
+	color: #999;
 }
 #menu{
 	background-color: #fc0;
 	box-shadow: 0px 0px 15px 5px #cca300 inset;
+	height: 60px;
 }
 #legoshop{
-	width: 200px;
 	height: 60px;
+	margin-right: 60px;
 }
 #shoplogo{
 	width: 50px;
@@ -99,10 +145,26 @@ a{
 	line-height: 60px;
 	text-shadow: -1px 0 #06c, 0 1px #06c, 1px 0 #06c, 0 -1px #06c;
 }
+#links{
+	display: inline-block;
+	position: relative;
+	bottom: 6px;
+}
+.linkBtn{
+	border: none;
+	background-color: transparent;
+	font-family: inherit;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 0px 15px;
+}
+.linkBtn:hover{
+	color: #06c;
+}
 
 /* content */
 #content{
-	padding: 20px 0px;
+	padding: 30px 0px;
 	background-color: #fff;
 }
 
@@ -132,7 +194,6 @@ footer p{
 	text-align: right;
 	float: right;
 	width: 440px;
-	margin-top: 5px;
 }
 #footerright p{
 	margin-right: 70px;
@@ -140,4 +201,5 @@ footer p{
 #logotm{
 	float: right;
 	width: 60px;
+	padding-top: 13px;
 }
