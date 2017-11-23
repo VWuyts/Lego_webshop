@@ -13,7 +13,7 @@
     createHeader(true, NULL);
 ?>
     <div class="center">
-        <form action="<?php echo($_SERVER['PHP_SELF']); ?>" method="post" onSubmit="return checkRegister()">
+        <form action="<?php echo(htmlspecialchars($_SERVER['PHP_SELF'])); ?>" method="post" onSubmit="return checkRegister()">
             <p>
                 <label for="email">Email:</label>
                 <input type="text" name="email" />
