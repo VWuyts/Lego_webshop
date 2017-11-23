@@ -140,7 +140,7 @@
     <url>http://jigsaw.w3.org/css-validator/</url>
     <urlDate>2017-11-09</urlDate>
   </reference>
-
+  
   <reference>
     <type>online</type>
     <author>
@@ -151,7 +151,7 @@
     <url>http://validator.w3.org/#validate_by_input</url>
     <urlDate>2017-11-09</urlDate>
   </reference>
-  
+
   <reference>
     <type>online</type>
     <author>
@@ -179,21 +179,21 @@
     <author>
       <surname>W3Schools.com</surname>
     </author>
-    <title>SQL Tutorial</title>
+    <title>PHP 5 Tutorial</title>
     <year>2017</year>
-    <url>https://www.w3schools.com/sql/default.asp</url>
-    <urlDate>2017-11-11</urlDate>
+    <url>https://www.w3schools.com/php/default.asp</url>
+    <urlDate>2017-11-09</urlDate>
   </reference>
-
+  
   <reference>
     <type>online</type>
     <author>
       <surname>W3Schools.com</surname>
     </author>
-    <title>PHP 5 Tutorial</title>
+    <title>SQL Tutorial</title>
     <year>2017</year>
-    <url>https://www.w3schools.com/php/default.asp</url>
-    <urlDate>2017-11-09</urlDate>
+    <url>https://www.w3schools.com/sql/default.asp</url>
+    <urlDate>2017-11-11</urlDate>
   </reference>
 
 </references>

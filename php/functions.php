@@ -25,11 +25,11 @@
 		echo("\t<meta charset='utf-8'>\n");
 		echo("\t<title>$title</title>\n");
 		echo("\t<link href='". $dir ."favicon.ico' rel='icon' type='image/ico' />\n");
-		echo("\t<link href='". $dir ."stylesheets/reset_v2.css' rel='stylesheet' type='text/css' />\n");
-		echo("\t<link href='". $dir ."stylesheets/legoshop.css' rel='stylesheet' type='text/css' />\n");
+		echo("\t<link href='". $dir ."css/reset_v2.css' rel='stylesheet' type='text/css' />\n");
+		echo("\t<link href='". $dir ."css/legoshop.css' rel='stylesheet' type='text/css' />\n");
 		for ($i = 0; $i < count($cssArray); $i++)
 		{
-			echo("\t<link href='". $dir ."stylesheets/". $cssArray[$i] .".css' rel='stylesheet' type='text/css' />\n");
+			echo("\t<link href='". $dir ."css/". $cssArray[$i] .".css' rel='stylesheet' type='text/css' />\n");
 		}
 		echo("\t<script src='". $dir ."js/legoshop.js'></script>\n");
 		for	($i = 0; $i < count($scriptArray); $i++)
@@ -152,7 +152,7 @@
 		echo("\t\t\t\t<a href='https://www.lego.com' title='To LEGO.com' target='_blank'>\n");
 		echo("\t\t\t\t\t<img id='logolego' src='". ($inDirPhp ? "../" : "") ."images/lego-logo.svg' alt='logo Lego' />\n");
 		echo("\t\t\t\t</a>\n");
-		echo("\t\t\t\t<p>Last update 17-11-2017</p>\n");
+		echo("\t\t\t\t<p>Last update 23-11-2017</p>\n");
 		echo("\t\t\t</div>\n");
 		echo("\t\t\t<p class='spacer'></p>\n");
 		echo("\t\t</div> <!-- end red part of footer -->\n");
