@@ -17,11 +17,10 @@
  DROP TABLE IF EXISTS registeredUser; -- user is included in list of keywords and reserved words
  CREATE TABLE registeredUser (
 	userID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	surname VARCHAR(50) NOT NULL,
-	firstName VARCHAR(50) NOT NULL,
+	name VARCHAR(100) NOT NULL,
 	role ENUM("admin", "customer") NOT NULL,
 	email VARCHAR(255) NOT NULL,
-	passw VARCHAR(64) NOT NULL, -- password is included in list of keywords and reserved words
+	passw CHAR(64) NOT NULL, -- password is included in list of keywords and reserved words -- SHA256 used (hexadecimal representation)
 	isActive BOOLEAN NOT NULL DEFAULT 1,
 	PRIMARY KEY (userID),
 	UNIQUE (email) -- email is used as login
