@@ -1,0 +1,6 @@
+# Monolog class files
+classesExternal/Monolog
+
+# Log files
+log/activitylog
+log/errorlog
