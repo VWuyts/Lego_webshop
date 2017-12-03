@@ -1,0 +1,53 @@
+/* Lego Webshop
+ *
+ * Lab assignment for course PHP & MySQL 2017
+ * Thomas More campus De Nayer
+ * Bachelor Elektronica-ICT -- Application Development
+ * 
+ * Véronique Wuyts
+ *
+ * Stylesheet for login page
+ */
+
+#login{
+	color: #fff;
+	background-color: #06c;
+	padding: 50px 100px;
+	width: 400px;
+	margin: 0px auto;
+}
+#login .textinput{
+	box-sizing: border-box;
+	font-size: 16px;
+	color: #2c2c2c;
+    width: 400px;
+    border-radius: 3px;
+    padding: 5px;
+}
+#login .button{
+	font-family: inherit;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 20px;
+	color: #2c2c2c;
+	background-color: #fc0;
+	box-shadow: 0px 0px 15px 5px #cca300 inset;
+	border: 1px solid #cca300;
+	border-radius: 3px;
+	padding: 5px 30px;
+	margin: 50px 0px 0px 20px;
+	float: right;
+}
+#login .button:hover{
+	color: inherit;
+	background-color: #f00;
+	box-shadow: 0px 0px 15px 5px #c00 inset;
+}
+#err{
+	text-align: center;
+	color: #2c2c2c;
+	background-color: #f99;
+	line-height: 36px;
+    margin-bottom: 20px;
+    visibility: hidden;
+}
