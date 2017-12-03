@@ -1,6 +1,19 @@
 # Monolog class files
 classesExternal/Monolog
 
+# Psr class files
+classesExternal/Psr
+
 # Log files
 log/activitylog
 log/errorlog
+
+# Visual Studio Code files
+.vscode
+
+# Visual Paradigm files
+*.vpp.bak_*
+*.vpp.lck
+
+# Temporary files
+~*

@@ -8,11 +8,15 @@
  */
 
 #intputform{
-   width: 60%;
+   width: 70%;
    margin: 0px auto;
 }
 .red{
     color: #f00;
+}
+.buttonbox{
+    width: 50%;
+    margin: 0px auto;
 }
 .button{
    font-family: inherit;
