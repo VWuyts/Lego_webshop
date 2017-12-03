@@ -5,10 +5,13 @@
  * Bachelor Elektronica-ICT -- Application Development
  * 
  * Véronique Wuyts
+ *
+ * legoshop.js
  */
 
 function initialise()
 {
+    // create floating menu
 	var menuItem = document.getElementById("topmenu").getElementsByTagName("li");
 		
 	for (var i = 0; i < menuItem.length; i++)

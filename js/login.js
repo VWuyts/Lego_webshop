@@ -7,7 +7,7 @@
  * Véronique Wuyts
  */
 
- function checkRegister()
- {
-
- }
+function checkLogin()
+{
+    
+}

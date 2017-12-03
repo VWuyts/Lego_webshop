@@ -5,6 +5,8 @@
  * Bachelor Elektronica-ICT -- Application Development
  * 
  * Véronique Wuyts
+ *
+ * General Legoshop stylesheet
  */
 
 #wrapper{
@@ -18,6 +20,9 @@
 	margin: 0px auto;
     min-width: 805px;
     max-width: 1200px;
+}
+.smallfont{
+	font-size: 75%;
 }
 .spacer{
 	clear: both;

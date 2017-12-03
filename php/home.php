@@ -6,11 +6,15 @@
  * Bachelor Elektronica-ICT -- Application Development
  * 
  * Véronique Wuyts
+ * 
+ * Home page
  */
 
     require("functions.php");
-    createHead(true, "Legoshop home", NULL, NULL);
+    
+    createHead(true, "Legoshop | home", NULL, NULL);
     createHeader(true, NULL);
+
 ?>
     <p>
         blablabla

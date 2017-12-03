@@ -6,10 +6,12 @@
  * Bachelor Elektronica-ICT -- Application Development
  * 
  * Véronique Wuyts
+ * 
+ * Login page
  */
 
     require("functions.php");
-    createHead(true, "Legoshop login", ["login"], ["login"]);
+    createHead(true, "Legoshop | login", ["login"], ["login"]);
     createHeader(true, NULL);
 ?>
     <div class="center">

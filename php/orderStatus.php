@@ -10,7 +10,7 @@
 
     require("functions.php");
     createHead(true, "Legoshop order status", NULL, NULL);
-    createHeader(true, NULL);
+    createHeader(true, true);
 ?>
 <p>
     blablabla

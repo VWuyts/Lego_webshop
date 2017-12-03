@@ -6,9 +6,93 @@
  * Bachelor Elektronica-ICT -- Application Development
  * 
  * Véronique Wuyts
+ * 
+ * Global functions
  */
 
-    /*
+	/* Function cleanInput cleans user input for protection against html injection.
+	 * Parameter input:	string; the user input to be cleaned
+	 */
+	function cleanInput($input)
+	{
+		return htmlspecialchars(trim($input));
+	}
+
+	/*
+	 * Function create Errorpage creates the default Legoshop error page and redirects to this page.
+	 * Parameter messageArray: array of strings; message(s) to be displayed on the error page
+	 */
+	function createErrorPage($messageArray)
+	{
+		$content = "<?php\n";
+		$content .= "/* Lego Webshop\n";
+		$content .= " *\n";
+		$content .= " * Lab assignment for course PHP & MySQL 2017\n";
+		$content .= " * Thomas More campus De Nayer\n";
+		$content .= " * Bachelor Elektronica-ICT -- Application Development\n";
+		$content .= " *\n";
+		$content .= " * Véronique Wuyts\n";
+		$content .= " *\n";
+		$content .= " * Error page\n";
+		$content .= " */\n\n";
+		$content .= "require '../php/functions.php';\n";
+		$content .= "createHead(true, 'Legoshop | error', ['message'], ['message']);\n";
+		$content .= "createHeader(true, false);\n";
+		$content .= "?>\n";
+		$content .= "\t<div class='center'>\n";
+		for ($i = 0; $i < count($messageArray); $i++)
+		{
+			$content .= "\t\t<p class='message'>". $messageArray[$i] ."</p>\n";
+		}
+		$content .= "\t\t<p class='message'>You will be redirected to the home page.</p>\n";
+		$content .= "\t\t<p><a href='../php/home.php'>Back to home page</a></p>\n";
+		$content .= "\t</div> <!-- end center -->\n";
+		$content .= "<?php\n";
+		$content .= "createFooter(true);\n";
+		$content .= "?>\n";
+		file_put_contents("../message/error.php", $content);
+		header("Location: ../message/error.php");
+	} // end function createErrorPage
+
+	/* 
+	 * Function createMessagePage creates the default Legoshop message page and redirects to this page.
+	 * Parameter messageArray: array of strings; message(s) to be displayed on the message page
+	 * 			 user: string; the user which is logged on or null if no user is logged on
+	 *			 php: string; the php page that is referenced in the link button
+	 *			 button: string: the value of the link button
+	 */
+	function createMessagePage($messageArray, $user, $php, $button)
+	{
+		$content = "<?php\n";
+		$content .= "/* Lego Webshop\n";
+		$content .= " *\n";
+		$content .= " * Lab assignment for course PHP & MySQL 2017\n";
+		$content .= " * Thomas More campus De Nayer\n";
+		$content .= " * Bachelor Elektronica-ICT -- Application Development\n";
+		$content .= " *\n";
+		$content .= " * Véronique Wuyts\n";
+		$content .= " *\n";
+		$content .= " * Message page\n";
+		$content .= " */\n\n";
+		$content .= "require '../php/functions.php';\n";
+		$content .= "createHead(true, 'Legoshop | message', ['message'], NULL);\n";
+		$content .= "createHeader". (is_null($user) ? "(true, NULL)" : "(true, $user)") .";\n";
+		$content .= "?>\n";
+		$content .= "\t<div class='center'>\n";
+		for ($i = 0; $i < count($messageArray); $i++)
+		{
+			$content .= "\t\t<p class='message'>". $messageArray[$i] ."</p>\n";
+		}
+		$content .= "\t\t<p><a href='$php'>$button</a></p>\n";
+		$content .= "\t</div> <!-- end center -->\n";
+		$content .= "<?php\n";
+		$content .= "createFooter(true);\n";
+		$content .= "?>\n";
+		file_put_contents("../message/message.php", $content);
+		header("Location: ../message/message.php");
+	} // end function createMessagePage
+
+	/* 
 	 * Function createHead creates the default Lego webshop HTML head.
 	 * Parameter inDirPhp: boolean; is the script calling the function located in the php or message folder
 	 * 			 title: string; title for the HTML page
@@ -39,12 +123,12 @@
 		echo("</head>\n\n");
 		echo("<body  onLoad='initialise();'>\n");
 		echo("<div id='wrapper'>\n");
-    }//end createHead
+    } // end function createHead
     
-    /*
+	/* 
 	 * Function createHeader creates the default Lego webshop header division.
-	 * Parameter user: string; the user that is logged in or null if no user is logged on
-	 *			 inDirPhp: boolean; is the script calling the function located in the php folder
+	 * Parameter inDirPhp: boolean; is the script calling the function located in the php folder
+	 * 			 user: the user which is logged on or null if no user is logged on
 	 */
 	function createHeader($inDirPhp, $user)
 	{
@@ -76,7 +160,7 @@
 		}
 		else
 		{
-			// TO DO: add number of items to shopping bag
+			// TODO: add number of items to shopping bag
 			echo("\t\t\t\t\t\t<li>\n");
 			echo("\t\t\t\t\t\t\t<img src='". ($inDirPhp ? "../" : "") ."images/lego-bag.png' alt='Lego shopping bag' />\n");
 			echo("\t\t\t\t\t\t\t<a href='". ($inDirPhp ? "" : "php/") ."shoppingBag.php'>Shopping bag</a>\n");
@@ -128,7 +212,7 @@
 		echo("\t\t</div> <!-- end menu -->\n");        
 		echo("\t</header>\n\n");
 		echo("\t<div id='content'>\n");
-	}//end createHeader
+	} // end function createHeader
 
     /*
 	 * Function createFooter creates the default Lego webshop footer.
@@ -138,7 +222,7 @@
 	{
 		echo("\t</div> <!--end content-->\n\n");
 		echo("\t<footer>\n");
-		// TO DO: add grey part of footer
+		// TODO: add grey part of footer
 		echo("\t\t<div class='center'>\n");
 		echo("\t\t\t<div id='footerright'>\n");
 		echo("\t\t\t\t<a href='http://www.thomasmore.be/' title='to Thomas More homepage' target='_blank'>\n");
@@ -152,7 +236,7 @@
 		echo("\t\t\t\t<a href='https://www.lego.com' title='To LEGO.com' target='_blank'>\n");
 		echo("\t\t\t\t\t<img id='logolego' src='". ($inDirPhp ? "../" : "") ."images/lego-logo.svg' alt='logo Lego' />\n");
 		echo("\t\t\t\t</a>\n");
-		echo("\t\t\t\t<p>Last update 23-11-2017</p>\n");
+		echo("\t\t\t\t<p>Last update 03-12-2017</p>\n");
 		echo("\t\t\t</div>\n");
 		echo("\t\t\t<p class='spacer'></p>\n");
 		echo("\t\t</div> <!-- end red part of footer -->\n");
@@ -160,5 +244,5 @@
 		echo("</div>\n");
 		echo("</body>\n");
 		echo("</html>\n");
-	}//end createFooter
+	} // end function createFooter
 ?>

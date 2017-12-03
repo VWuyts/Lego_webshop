@@ -6,14 +6,23 @@
  * Bachelor Elektronica-ICT -- Application Development
  * 
  * Véronique Wuyts
+ * 
+ * Index page
  */
 
-    require("php/functions.php");
+    session_start();
+    $_SESSION['userID'] = -1;
+    $_SESSION['role'] = "unregistered";
+
+    require_once("php/functions.php");
     createHead(false, "Legoshop", NULL, NULL);
     createHeader(false, NULL);
 ?>
 <p>
-    blablabla
+    <?php
+    if (is_string("gdhdfiLBCLD")) echo "true";
+    else echo "false";
+    ?>
 </p>
 <?php
     createFooter(false);

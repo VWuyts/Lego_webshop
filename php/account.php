@@ -9,8 +9,8 @@
  */
 
     require("functions.php");
-    createHead(true, "Legoshop account", NULL, NULL);
-    createHeader(true, NULL);
+    createHead(true, "Legoshop | account", NULL, NULL);
+    createHeader(true, "TODO");
 ?>
 <p>
     blablabla
