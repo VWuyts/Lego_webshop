@@ -17,10 +17,11 @@
  DROP TABLE IF EXISTS registeredUser; -- user is included in list of keywords and reserved words
  CREATE TABLE registeredUser (
 	userID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	name VARCHAR(100) NOT NULL,
-	role ENUM("admin", "customer") NOT NULL,
+	firstname VARCHAR(50) NOT NULL,
+	surname VARCHAR(50) NOT NULL,
 	email VARCHAR(255) NOT NULL,
 	passw CHAR(64) NOT NULL, -- password is included in list of keywords and reserved words -- SHA256 used (hexadecimal representation)
+	role ENUM("admin", "customer") NOT NULL,
 	isActive BOOLEAN NOT NULL DEFAULT 1,
 	PRIMARY KEY (userID),
 	UNIQUE (email) -- email is used as login
@@ -31,7 +32,7 @@
  CREATE TABLE address (
 	addressID INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	street VARCHAR(50) NOT NULL,
-	hNumber SMALLINT UNSIGNED NOT NULL, -- number is included in list of keywords and reserved words
+	hNumber VARCHAR(8) NOT NULL, -- number is included in list of keywords and reserved words
 	box VARCHAR(8),
 	postalCode VARCHAR(8) NOT NULL,
 	city VARCHAR(50) NOT NULL,

@@ -17,6 +17,7 @@
     </author>
     <title></title>
     <year></year>
+    <version></version>
     <organisation></organisation>
     <url></url>
     <urlDate></urlDate>
@@ -83,6 +84,30 @@
     <urlDate>2017-11-09</urlDate>
   </reference>
 
+  <reference>
+    <type>online</type>
+    <author>
+      <surname>Boggiano</surname>
+      <name>Jordi</name>
+    </author>
+    <title>Monolog - Logging for PHP</title>
+    <year>2017</year>
+    <url>https://github.com/Seldaek/monolog</url>
+    <urlDate>2017-11-24</urlDate>
+  </reference>
+
+  <reference>
+    <type>online</type>
+    <author>
+      <surname>hugo_leonardo</surname>
+    </author>
+    <title>Creating a config file in PHP</title>
+    <year>2017</year>
+    <organisation>Stack Overflow</organisation>
+    <url>https://stackoverflow.com/questions/14752470/creating-a-config-file-in-php</url>
+    <urlDate>2017-11-28</urlDate>
+  </reference>  
+
    <reference>
     <type>online</type>
     <author>
@@ -101,6 +126,7 @@
     </author>
     <title>MariaDB Documentation</title>
     <year>2017</year>
+    <version>1.23.0</version>
     <url>https://mariadb.com/kb/en/library/documentation/</url>
     <urlDate>2017-11-11</urlDate>
   </reference>

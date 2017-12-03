@@ -152,3 +152,19 @@ VALUES  (853465, "Upscaled Mug", 9.99, 5, "Imagine that you're part of the LEGO 
         (853669, "Lego Shopper Bag", 5.99, 3, "Say goodbye to disposable carrier bags with this large reusable LEGO Shopper Bag, produced in a sturdy, non-woven laminated fabric printed with a colorful LEGO brick design. This environmentally friendly bag is built to last, with plenty of room for your next LEGO shopping trip.", 
             1, "extras")
 ;
+
+/* Fill table shippingCost */
+INSERT INTO shippingCost
+	(amount, minPurchase, country)
+VALUES	(5.95, 0, "Belgium"),
+		(5.95, 0, "The Netherlands"),
+		(5.95, 0, "Luxembourg"),
+		(5.95, 0, "Germany"),
+		(5.95, 0, "France"),
+		(0, 50, "Belgium"),
+		(0, 50, "The Netherlands"),
+		(0, 50, "Luxembourg"),
+		(0, 50, "Germany"),
+		(0, 50, "France"),
+		(0, 0, "legoland")
+;
