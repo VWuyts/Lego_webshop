@@ -167,20 +167,31 @@ class RegisteredUser
             $errMessage = "First name, surname, email and password are required.";
             $primaryKey = NULL;
         }
-        elseif (($primaryKey = $this->getPrimaryKey($connection)) === false)
-        {
-            $query = "INSERT INTO registeredUser (firstname, surname, email, passw, role, isActive) ".
-                "VALUES ('". $this->m_firstname ."', '". $this->m_surname ."', '".
-                         $this->m_email ."', '". $this->m_password ."', 'customer', true);";
-            if ($connection->queryBool($query))
-            {
-                $errMessage = "";
-                $primaryKey = $this->getPrimaryKey($connection);
-            }
-        }
         else
         {
-            $errMessage = "A user with e-mail ". $this->m_email ." is already registered.";
+            list($primaryKey, $isActive) =  $this->getPrimaryKey($connection);
+            
+            if ($primaryKey === false)
+            {
+                $query = "INSERT INTO registeredUser (firstname, surname, email, passw, role, isActive) ".
+                    "VALUES ('". $this->m_firstname ."', '". $this->m_surname ."', '".
+                             $this->m_email ."', '". $this->m_password ."', 'customer', true);";
+                if ($connection->queryBool($query))
+                {
+                    $errMessage = "";
+                    list($primaryKey, $isActive) =  $this->getPrimaryKey($connection);
+                }
+            }
+            else
+            {
+                if ($isActive == false)
+                {
+                    $query = "UPDATE registeredUser SET isActive=true WHERE userID=". $primaryKey .";";
+                    $connection->queryBool($query);
+                    $errMessage = "";
+                }
+                $errMessage = "A user with e-mail ". $this->m_email ." is already registered.";
+            }
         }
         $connection->close();
 
@@ -263,6 +274,44 @@ class RegisteredUser
     } // end function check
 
     /*
+     * check if email and password are a valid login
+     * Function checkLogin returns an array with the error message and the primary key,
+     * first name and role of the registered user.
+     * If the given email and password do not match a registered user in the database,
+     * a non-empty error message is returned.
+     */
+    public static function checkLogin($p_email, $p_password, $config)
+    {
+        $errMessage = "The email you entered cannot be identified";
+        $primaryKey = false;
+        $firstname = $role = $passw = NULL;
+        $p_password = hash(self::HASH, $p_password);
+
+        $query = "SELECT * FROM registeredUser WHERE email='". $p_email ."' AND isActive=true;";
+        $connection = new Connection($config);
+        $result = $connection->queryResult($query);
+        while ($row = $result->fetch_array())
+        {
+            $primaryKey = $row['userID'];
+            $firstname = $row['firstname'];
+            $role = $row['role'];
+            $passw = $row['passw'];
+        }
+        $result->close();
+        $connection->close();
+        if (!is_null($passw) && $passw === $p_password)
+        {
+            $errMessage = "";
+        }
+        else
+        {
+            $errMessage = "The password you entered was incorrect";
+        }
+
+        return array($errMessage, $primaryKey, $firstname, $role);
+    } // end function checkLogin
+
+    /*
      * check for duplicate users in database
      * This function checks if the e-mail address is not yet included in the database.
      */
@@ -277,11 +326,17 @@ class RegisteredUser
         return true;
     }*/ // end function isDuplicate
 
-    // get the primary of this RegisteredUser
-    // If this RegisteredUser is not found in the database, false is returned
+    /*
+     * get the primary of this RegisteredUser
+     * Function getPrimaryKey returns an array of the primary key and the value
+     * of the field isActive.
+     * If this RegisteredUser is not found in the database, false is returned
+     * as primary key
+     */
+
     private function getPrimaryKey($connection)
     {
-        $query = "SELECT userID FROM registeredUser WHERE email='". $this->m_email ."';";
+        $query = "SELECT userID, isActive FROM registeredUser WHERE email='". $this->m_email ."';";
         $result = $connection->queryResult($query);
         $noRows = $result->num_rows;
         if ($noRows === 0)
@@ -291,9 +346,10 @@ class RegisteredUser
         }
         $row = $result->fetch_array();
         $primaryKey = $row['userID'];
+        $isActive = $row['isActive'];
         $result->close();
 
-        return $primaryKey;
+        return array($primaryKey, $isActive);
     } // end function getPrimaryKey
 
 } // end class RegisteredUser

@@ -5,14 +5,13 @@
  * Bachelor Elektronica-ICT -- Application Development
  * 
  * Véronique Wuyts
+ *
+ * Stylesheet for registration page
  */
 
-#intputform{
+#inputform{
    width: 70%;
    margin: 0px auto;
-}
-.red{
-    color: #f00;
 }
 .buttonbox{
     width: 50%;
@@ -38,6 +37,9 @@
    font-size: 14px;
    display: none;
 }
+.red{
+    color: #f00;
+}
 .textinput{
     font-size: 16px;
     width: 400px;
@@ -45,7 +47,4 @@
     border-radius: 3px;
     padding: 5px;
     margin: 5px 0px;
-}
-.topmargin{
-    margin-top: 10px;
 }

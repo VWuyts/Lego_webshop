@@ -10,121 +10,126 @@
  * Registration page
  */
 
+    session_start();
     require_once("functions.php");
     require_once("../classes/Address.php");
     require_once("../classes/CustomerAddress.php");
     require_once("../classes/RegisteredUser.php");
-    //$config = include("../conf/config.php");
 
-    createHead(true, "Legoshop | register", ["register"], ["register"]);
-    createHeader(true, NULL);
+    // Check user role
+    if (isset($_SESSION['role']) && ($_SESSION['role'] === "regular"))
+    {
+        // Define variables and set to empty values
+        $firstname = $surname = $email = $passw = "";
+        $firstnameErr = $surnameErr = $emailErr = $passwErr = "";
+        $street = $hNumber = $box = $postalCode = $city = $country = "";
+        $streetErr = $hNumberErr = $boxErr = $postalCodeErr = $cityErr = $countryErr = "";
+        // Get possible countries to ship to
+        $countryArr = Address::getShipCountries($config);
 
-    // Define variables and set to empty values
-    $firstname = $surname = $email = $passw = "";
-    $firstnameErr = $surnameErr = $emailErr = $passwErr = "";
-    $street = $hNumber = $box = $postalCode = $city = $country = "";
-    $streetErr = $hNumberErr = $boxErr = $postalCodeErr = $cityErr = $countryErr = "";
-    // Get possible countries to ship to
-    $countryArr = Address::getShipCountries($config);
-
-    // Form validation
-    if (isset($_POST['register'])) {
-        // Check firstname
-        $firstname = cleanInput($_POST['firstname']);
-        if (!empty($firstnameErr = RegisteredUser::check("firstname", $firstname)))
+        // Form validation
+        if (isset($_POST['register']))
         {
-            $firstname = "";
-        }
-        // Check surname
-        $surname = cleanInput($_POST['surname']);
-        if (!empty($surnameErr = RegisteredUser::check("surname", $surname)))
-        {
-            $surname = "";
-        }
-        // Check email
-        $email = cleanInput($_POST['email']);
-        if (!empty($emailErr = RegisteredUser::check("email", $email)))
-        {
-            $email="";
-        }
-        // Check password
-        $passw = trim($_POST['passw']);
-        if(!empty($passwErr = RegisteredUser::check("password", $passw)))
-        {
-            $passw = "";
-        }
-        // Check street
-        $street = cleanInput($_POST['street']);
-        if (!empty($streetErr = Address::check("street", $street)))
-        {
-            $street = "";
-        }
-        // Check hNumber
-        $hNumber = cleanInput($_POST['hNumber']);
-        if (!empty($hNumberErr = Address::check("hNumber", $hNumber)))
-        {
-            $hNumber = "";
-        }
-        // Check box
-        $box = cleanInput($_POST['box']);
-        if (!empty($boxErr = Address::check("box", $box)))
-        {
-            $box = NULL;
-        }
-        // Check postalCode
-        $postalCode = cleanInput($_POST['postalCode']);
-        if (!empty($postalCodeErr = Address::check("postalCode", $postalCode)))
-        {
-            $postalCode = "";
-        }
-        // Check city
-        $city = cleanInput($_POST['city']);
-        if (!empty($cityErr = Address::check("city", $city)))
-        {
-            $city = "";
-        }
-        // Check country
-        $country = cleanInput($_POST['country']);
-        if (!empty($countryErr = Address::check("country", $country)))
-        {
-            $country = "";
-        }
-
-        // If there are no errors, add user and address to database.
-        if (empty($firstnameErr) && empty($surnameErr) && empty($emailErr) && empty($passwErr)
-            && empty($streetErr) && empty($hNumberErr) && empty($boxErr) && empty($postalCodeErr)
-            && empty($cityErr) && empty($countryErr))
-        {
-            $registeredUser = new RegisteredUser($firstname, $surname, $email, $passw);
-            list($registerErr, $userID) = $registeredUser->addToDB($config);
-            if (empty($registerErr))
+            // Check firstname
+            $firstname = cleanInput($_POST['firstname']);
+            if (!empty($firstnameErr = RegisteredUser::check("firstname", $firstname)))
             {
-                $address = new Address($street, $hNumber, $postalCode, $city, $country, $box);
-                list($addressErr, $addressID) = $address->addToDB($config);
-                $customerAddress = new CustomerAddress((int)$userID, (int)$addressID);
-                list($customerAddressErr, $customerAddressID) = $customerAddress->addToDB($config);
-
-                // Show message page
-                createMessagePage(["Your Lego account has been created.", "You can now sign in."],
-                    null, "../php/home.php", "Back to home page");
-                die();
+                $firstname = "";
             }
-            else
+            // Check surname
+            $surname = cleanInput($_POST['surname']);
+            if (!empty($surnameErr = RegisteredUser::check("surname", $surname)))
             {
-                // show error page
-                createErrorPage([$registerErr]);
-                die();
+                $surname = "";
             }
+            // Check email
+            $email = cleanInput($_POST['email']);
+            if (!empty($emailErr = RegisteredUser::check("email", $email)))
+            {
+                $email="";
+            }
+            // Check password
+            $passw = trim($_POST['passw']);
+            if(!empty($passwErr = RegisteredUser::check("password", $passw)))
+            {
+                $passw = "";
+            }
+            // Check street
+            $street = cleanInput($_POST['street']);
+            if (!empty($streetErr = Address::check("street", $street)))
+            {
+                $street = "";
+            }
+            // Check hNumber
+            $hNumber = cleanInput($_POST['hNumber']);
+            if (!empty($hNumberErr = Address::check("hNumber", $hNumber)))
+            {
+                $hNumber = "";
+            }
+            // Check box
+            $box = cleanInput($_POST['box']);
+            if (!empty($boxErr = Address::check("box", $box)))
+            {
+                $box = NULL;
+            }
+            // Check postalCode
+            $postalCode = cleanInput($_POST['postalCode']);
+            if (!empty($postalCodeErr = Address::check("postalCode", $postalCode)))
+            {
+                $postalCode = "";
+            }
+            // Check city
+            $city = cleanInput($_POST['city']);
+            if (!empty($cityErr = Address::check("city", $city)))
+            {
+                $city = "";
+            }
+            // Check country
+            $country = cleanInput($_POST['country']);
+            if (!empty($countryErr = Address::check("country", $country)))
+            {
+                $country = "";
+            }
+
+            // If there are no errors, add user and address to database.
+            if (empty($firstnameErr) && empty($surnameErr) && empty($emailErr) && empty($passwErr)
+                && empty($streetErr) && empty($hNumberErr) && empty($boxErr) && empty($postalCodeErr)
+                && empty($cityErr) && empty($countryErr))
+            {
+                $registeredUser = new RegisteredUser($firstname, $surname, $email, $passw);
+                list($registerErr, $userID) = $registeredUser->addToDB($config);
+                if (empty($registerErr))
+                {
+                    $address = new Address($street, $hNumber, $postalCode, $city, $country, $box);
+                    list($addressErr, $addressID) = $address->addToDB($config);
+                    $customerAddress = new CustomerAddress((int)$userID, (int)$addressID);
+                    list($customerAddressErr, $customerAddressID) = $customerAddress->addToDB($config);
+
+                    // Show message page
+                    createMessagePage(["Your Lego account has been created.", "You can now sign in."],
+                        null, "../php/home.php", "Back to home page");
+                    die();
+                }
+                else
+                {
+                    // show error page
+                    createErrorPage([$registerErr]);
+                    die();
+                }
+            }
+            unset($_POST['register']);
         }
-        unset($_POST['register']);
-    }
+
+        // Show form
+        createHead(true, "Legoshop | register", ["register"], ["register"]);
+        createHeader(true, NULL, false);
 ?>
     <div class="center">
         <h1>Create a Lego account</h1>
     </div> <!-- end center -->
     <hr />
     <div class="center">
-        <form id="intputform" action="<?php echo(htmlspecialchars($_SERVER['PHP_SELF'])); ?>" method="post" onSubmit="return checkRegister()">
+        <form id="inputform" action="<?php echo(htmlspecialchars($_SERVER['PHP_SELF'])); ?>" method="post" onSubmit="return checkRegister()">
             <p><label for="firstname">First name:</label></p>
             <p>
                 <input class="textinput" id="firstname" type="text" name="firstname" value="<?php echo($firstname); ?>" autofocus />
@@ -195,5 +200,11 @@
         </form>
     </div> <!-- end center -->
 <?php
-    createFooter(true);
+        createFooter(true);
+    }
+    else
+    {
+        // User should not be on this page
+        header("Location: ../index.php");
+    }
 ?>

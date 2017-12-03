@@ -104,15 +104,15 @@ function checkRegister()
     }
     else
     {
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
-        {
-            emailOK = 0;
-            document.getElementById("emailErr").innerHTML = "* ";
-        }
-        else
+        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)))
         {
             emailOK = 1;
             document.getElementById("emailErr").innerHTML = "* Invalid e-mail format";
+        }
+        else
+        {
+            emailOK = 0;
+            document.getElementById("emailErr").innerHTML = "* ";
         }
     }
     // check password
@@ -219,6 +219,10 @@ function checkRegister()
         boxOK = 1;
         document.getElementById("boxErr").innerHTML = " Maximum "+ MAX_SHORT +" characters allowed";
     }
+    else
+    {
+        boxOK = 0;
+    }
     // check postal code
     if (postalCode == "")
     {
@@ -303,9 +307,9 @@ function checkRegister()
 
     // decide if OK to send to server
     if (firstnameOK + surnameOK + emailOK + passwOK + 
-        streetOK + hNumberOK + boxOK + postalCodeOK + cityOK + countryOK > 1)
+        streetOK + hNumberOK + boxOK + postalCodeOK + cityOK + countryOK > 0)
     {
         return false;
     }
     return true;
-}
+} // end function checkRegister

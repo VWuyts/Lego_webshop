@@ -11,5 +11,5 @@
 
 // redirect users to home page after 10 seconds
 window.setTimeout(function(){
-    window.location = '../php/home.php';
+    window.location = '../index.php';
 },10000);

@@ -11,19 +11,30 @@
  */
 
     session_start();
-    $_SESSION['userID'] = -1;
-    $_SESSION['role'] = "unregistered";
-
     require_once("php/functions.php");
-    createHead(false, "Legoshop", NULL, NULL);
-    createHeader(false, NULL);
+
+    // Check user role
+    if (isset($_SESSION['role']) && ($_SESSION['role'] === "customer"))
+    {
+        createHead(NULL, "Legoshop", NULL, NULL);
+        createHeader(NULL, $_SESSION['firstname'], false);
+    }
+    elseif (isset($_SESSION['role']) && ($_SESSION['role'] === "admin"))
+    {
+        createHead(NULL, "Legoshop", NULL, NULL);
+        createHeader(NULL, $_SESSION['firstname'], true);
+    }
+    else
+    {
+        // User is not logged on
+        $_SESSION['role'] = "regular";
+        createHead(NULL, "Legoshop", NULL, NULL);
+        createHeader(NULL, NULL, false);
+    }
 ?>
-<p>
-    <?php
-    if (is_string("gdhdfiLBCLD")) echo "true";
-    else echo "false";
-    ?>
-</p>
+    <div class="center">
+        <p>blablabla</p>
+    </div> <!-- end center -->
 <?php
-    createFooter(false);
+    createFooter(NULL);
 ?>

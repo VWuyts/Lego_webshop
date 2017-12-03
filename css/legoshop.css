@@ -30,6 +30,9 @@
 .textCenter{
 	text-align: center;
 }
+.topmargin{
+    margin-top: 10px;
+}
 a{
 	text-decoration: none;
 	color: inherit;
@@ -71,7 +74,7 @@ hr{
 	margin: 0px;
 }
 #topmenu li{
-	width: 10em;
+	width: 13em;
 	float: right;
 	line-height: 30px;
 }
@@ -104,7 +107,8 @@ hr{
 }
 #topmenu #loginBtn{
 	font-family: inherit;
-    font-size: 14px;
+	font-size: 14px;
+	text-align: center;
     line-height: 20px;
     color: #fff;
     background-color: #06c;
