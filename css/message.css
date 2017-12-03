@@ -1,0 +1,31 @@
+/* Lego Webshop
+ *
+ * Lab assignment for course PHP & MySQL 2017
+ * Thomas More campus De Nayer
+ * Bachelor Elektronica-ICT -- Application Development
+ * 
+ * Véronique Wuyts
+ *
+ * Stylesheet for message page
+ */
+
+.message{
+	font-size:22px;
+	font-weight:bold;
+	text-align:center;
+	padding-top:10px;
+}
+
+#content a{
+    display: block;
+    width: 270px;
+    color: #fff;
+    background-color: #06c;
+    text-align: center;
+	padding: 5px 2px 5px 2px;
+	margin: 30px auto 0px auto;
+	border: 1px solid #004d99;
+}
+#content a:hover{
+	background-color: #004d99;
+}
