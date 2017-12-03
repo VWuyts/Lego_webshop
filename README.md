@@ -12,16 +12,18 @@ Structure of the Lego_webshop directory:
 Lego_webshop
 - classes
 - classesExternal
--- Monolog
---- Formatter
---- Handler
---- Processor
+  - Monolog
+    - Formatter
+    - Handler
+    - Processor
+  - Psr
+    - Log
 - conf
 - css
 - images
 - js
 - log
--- activityLog
--- errorLog
+  - activityLog
+  - errorLog
 - message
 - php
