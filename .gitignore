@@ -5,8 +5,7 @@ classesExternal/Monolog
 classesExternal/Psr
 
 # Log files
-log/activitylog
-log/errorlog
+errorlog
 
 # Visual Studio Code files
 .vscode
