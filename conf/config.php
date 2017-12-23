@@ -16,8 +16,6 @@ return array(
     'user'          => 'Webgebruiker',
     'passw'         => 'Labo2017',
     'db'            => 'Legoshop',
-    'activityLog'   => 'C:/xampp/htdocs/PHP&MySQL/Lego_webshop/log/activityLog',
-    'errorLog'      => 'C:/xampp/htdocs/PHP&MySQL/Lego_webshop/log/errorLog',
-    'maxLogFiles'   => 10
+    'errorLog'      => 'C:/xampp/htdocs/PHP&MySQL/Lego_webshop/errorLog'
 );
 ?>

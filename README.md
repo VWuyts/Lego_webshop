@@ -15,6 +15,6 @@ Lego_webshop
 - css
 - images
 - js
-- errorLog
+- errorlog
 - message
 - php
