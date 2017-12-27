@@ -10,8 +10,8 @@
  * class RegisteredUser
  */
 
-require_once("Connection.php");
-require_once("../php/errorhandling.php");
+require_once("../php/errorHandling.php");
+require_once("../php/exceptionHandling.php");
 
 class RegisteredUser
 {
@@ -35,7 +35,7 @@ class RegisteredUser
     public function __construct($p_firstname, $p_surname, $p_email, $p_password,
         $p_userID = NULL, $p_role = "customer", $p_isActive = true)
     {
-        if (empty(self::check("firstname", $p_firstname)))
+        if (empty(self::check("m_firstname", $p_firstname)))
         {
             $this->m_firstname = $p_firstname;
         }
@@ -43,7 +43,7 @@ class RegisteredUser
         {
             $this->m_firstname = "";
         }
-        if (empty(self::check("surname", $p_surname)))
+        if (empty(self::check("m_surname", $p_surname)))
         {
             $this->m_surname = $p_surname;
         }
@@ -51,7 +51,7 @@ class RegisteredUser
         {
             $this->m_surname = "";
         }
-        if (empty(self::check("email", $p_email)))
+        if (empty(self::check("m_email", $p_email)))
         {
             $this->m_email = $p_email;
         }
@@ -59,7 +59,7 @@ class RegisteredUser
         {
             $this->m_email = "";
         }
-        if (empty(self::check("password", $p_password)))
+        if (empty(self::check("m_password", $p_password)))
         {
             $this->m_password = hash(self::HASH, $p_password);
         }
@@ -67,7 +67,7 @@ class RegisteredUser
         {
             $this->m_password = "";
         }
-        if (empty(self::check("userID", $p_userID)))
+        if (empty(self::check("m_userID", $p_userID)))
         {
             $this->m_userID = $p_userID;
         }
@@ -75,7 +75,7 @@ class RegisteredUser
         {
             $this->m_userID = NULL; // MariaDB: if auto_increment field is NULL, the value will automatically be incremented
         }
-        if (empty(self::check("role", $p_role)))
+        if (empty(self::check("m_role", $p_role)))
         {
             $this->m_role = $p_role;
         }
@@ -83,14 +83,15 @@ class RegisteredUser
         {
             $this->m_role = "customer";
         }
-        if (empty(self::check("isActive", $p_isActive)))
+        $this->m_isActive = $p_isActive;
+        /*if (empty(self::check("m_isActive", $p_isActive)))
         {
             $this->m_isActive = $p_isActive;
         }
         else
         {
             $this->m_isActive = true;
-        }
+        }*/
     } // end constructor
 
     // set property to value
@@ -100,27 +101,27 @@ class RegisteredUser
         {
             switch ($p_property)
             {
-                case "firstname":
-                    $this->m_firstname = $p_value;
-                    break; 
-                case "surname":
-                    $this->m_surname = $p_value;
-                    break;
-                case "email":
-                    $this->m_email = $p_value;
-                    break;
-                case "password":
-                    $this->m_password = hash(self::HASH, $p_value);
-                    break;
-                case "userID":
-                    $this->m_userID = $p_value;
-                    break;
-                case "role":
-                    $this->m_role = $p_value;
-                    break;
-                case "isActive":
-                    $this->m_isActive = $p_value;
-                    break;
+            case "m_firstname":
+                $this->m_firstname = $p_value;
+                break; 
+            case "m_surname":
+                $this->m_surname = $p_value;
+                break;
+            case "m_email":
+                $this->m_email = $p_value;
+                break;
+            case "m_password":
+                $this->m_password = hash(self::HASH, $p_value);
+                break;
+            case "m_userID":
+                $this->m_userID = $p_value;
+                break;
+            case "m_role":
+                $this->m_role = $p_value;
+                break;
+            case "m_isActive":
+                $this->m_isActive = $p_value;
+                break;
             }
         }
     } // end function set
@@ -128,40 +129,42 @@ class RegisteredUser
     // get property value
     public function __get($p_property)
     {
-        switch ($p_property) {
-            case "firstname":
-                $result = $this->m_firstname;
-                break;
-            case "surname":
-                $result = $this->m_surname;
-                break;
-            case "email":
-                $result = $this->m_email;
-                break;
-            case "password":
-                $result = $this->m_password;
-                break;
-            case "userID":
-                $result = $this->m_userID;
-                break;
-            case "role":
-                $result = $this->m_role;
-                break;
-            case "isActive":
-                $result = $this->m_isActive;
-                break;
+        switch ($p_property)
+        {
+        case "m_firstname":
+            $result = $this->m_firstname;
+            break;
+        case "m_surname":
+            $result = $this->m_surname;
+            break;
+        case "m_email":
+            $result = $this->m_email;
+            break;
+        case "m_password":
+            $result = $this->m_password;
+            break;
+        case "m_userID":
+            $result = $this->m_userID;
+            break;
+        case "m_role":
+            $result = $this->m_role;
+            break;
+        case "m_isActive":
+            $result = $this->m_isActive;
+            break;
         }
+
+        return $result;
     } // end function get
 
     /*
      * add the RegisteredUser to the database
      * The user will be added with role = 'customer' and isActive = true.
      * The function returns a numerical array('error message', 'primary key').
-     * If the user is not in the database, a non-empty error message is returned.
+     * If the user is not added to the database, a non-empty error message is returned.
      */
-    public function addToDB($config)
+    public function addToDB($connection)
     {
-        $connection = new Connection($config);
         if (empty($this->m_firstname) || empty($this->m_surname)  || empty($this->m_email) || empty($this->m_password))
         {
             $errMessage = "First name, surname, email and password are required.";
@@ -169,34 +172,81 @@ class RegisteredUser
         }
         else
         {
+            // Check if user is not yet in the database
             list($primaryKey, $isActive) =  $this->getPrimaryKey($connection);
-            
             if ($primaryKey === false)
             {
-                $query = "INSERT INTO registeredUser (firstname, surname, email, passw, role, isActive) ".
-                    "VALUES ('". $this->m_firstname ."', '". $this->m_surname ."', '".
-                             $this->m_email ."', '". $this->m_password ."', 'customer', true);";
-                if ($connection->queryBool($query))
+                $query = "INSERT INTO registeredUser (firstname, surname, email, passw, role, isActive) 
+                    VALUES (?, ?, ?, ?, 'customer', true)";
+                try
                 {
-                    $errMessage = "";
-                    list($primaryKey, $isActive) =  $this->getPrimaryKey($connection);
+                    if (($stmt = $connection->prepare($query)) === false)
+                    {
+                        throw new MySQLException("Preparation of query failed."); 
+                    }
+                    if (($stmt->bind_param('ssss', $this->m_firstname, $this->m_surname,
+                            $this->m_email, $this->m_password)) === false)
+                    {
+                        throw new MySQLException("Binding parameters failed."); 
+                    }
+                    if (($stmt->execute()) === false)
+                    {
+                        throw new MySQLException("Query execution failed."); 
+                    }
+                } catch (MySQLException $e)
+                {
+                    $e->HandleException();
+                    die();
                 }
+                $errMessage = "";
+                list($primaryKey, $isActive) =  $this->getPrimaryKey($connection);
+                $stmt->close();
             }
-            else
+            else // User with this email address is already in the database
             {
-                if ($isActive == false)
+                if ($isActive == false) // The admin has placed the user on non-active
                 {
-                    $query = "UPDATE registeredUser SET isActive=true WHERE userID=". $primaryKey .";";
-                    $connection->queryBool($query);
-                    $errMessage = "";
+                    $errMessage = "Please contact the Lego Shop administrator for your registration.";
                 }
-                $errMessage = "A user with e-mail ". $this->m_email ." is already registered.";
+                else
+                {
+                    $errMessage = "A user with e-mail ". $this->m_email ." is already registered.";
+                }
             }
         }
-        $connection->close();
 
         return array($errMessage, $primaryKey);
     } // end function addToDB
+
+    // Set this RegisteredUser as non-active in the database
+    public function setNonActive($connection)
+    {
+        // Check if user is in the database
+        list($primaryKey, $isActive) =  $this->getPrimaryKey($connection);
+        if ($primaryKey !== false)
+        {
+            $query = "UPDATE registeredUser SET isActive = false WHERE m_userID = ?";
+            try
+            {
+                if (($stmt = $connection->prepare($query)) === false)
+                {
+                    throw new MySQLException("Preparation of query failed."); 
+                }
+                if (($stmt->bind_param('i', $this->m_userID)) === false)
+                {
+                    throw new MySQLException("Binding parameters failed."); 
+                }
+                if (($stmt->execute()) === false)
+                {
+                    throw new MySQLException("Query execution failed."); 
+                }
+            } catch (MySQLException $e)
+            {
+                $e->HandleException();
+                die();
+            }
+        }
+    } // end function setNonActive
 
     /*
      * check if value is valid for property
@@ -206,7 +256,7 @@ class RegisteredUser
     {
         $errMessage = "";
 
-        if (empty($p_value))
+        if (empty($p_value) && $p_property != 'm_isActive')
         {
             $errMessage = ucfirst($p_property) . " is required";
         }
@@ -214,59 +264,63 @@ class RegisteredUser
         {
             switch ($p_property)
             {
-                case "firstname":
-                case "surname":
-                    if (strlen($p_value) < self::MIN_NAME)
-                    {
-                        $errMessage = "At least ". self::MIN_NAME ." characters required";
-                    }
-                    elseif (strlen($p_value) > self::MAX_NAME)
-                    {
-                        $errMessage = "Maximum ". self::MAX_NAME ." characters allowed";
-                    }
-                    break;
-                case "email":
-                    if (filter_var($p_value, FILTER_VALIDATE_EMAIL) === false)
-                    {
-                        $errMessage = "Invalid e-mail format";
-                    }
-                    break;
-                case "password":
-                    if (strlen($p_value) < self::MIN_PASSW)
-                    {
-                        $errMessage = "At least ". self::MIN_PASSW ." characters required";
-                    }
-                    elseif (preg_match('/[A-Z]/', $p_value) === 0)
-                    {
-                        $errMessage = "At least 1 upper case letter required";
-                    }
-                    elseif(preg_match('/[a-z]/', $p_value) === 0)
-                    {
-                        $errMessage = "At least 1 lower case letter required";
-                    }
-                    elseif(preg_match('/[0-9]/', $p_value) === 0)
-                    {
-                        $errMessage = "At least 1 number required";
-                    }
-                    break;
-                case "userID":
-                    if ($p_value < 0)
-                    {
-                        $errMessage = "Has to be greater than or equal to 0";
-                    }
-                    break;
-                case "role":
-                    if (!in_array($p_value, self::ROLES))
-                    {
-                        $errMessage = "Has to be customer or admin";
-                    }
-                    break;
-                case "isActive":
-                    if (!is_bool($p_value))
-                    {
-                        $errMessage = "Has to be true or false";
-                    }
-                    break;
+            case "m_firstname":
+            case "m_surname":
+                if (strlen($p_value) < self::MIN_NAME)
+                {
+                    $errMessage = "At least ". self::MIN_NAME ." characters required";
+                }
+                elseif (strlen($p_value) > self::MAX_NAME)
+                {
+                    $errMessage = "Maximum ". self::MAX_NAME ." characters allowed";
+                }
+                break;
+            case "m_email":
+                if (filter_var($p_value, FILTER_VALIDATE_EMAIL) === false)
+                {
+                    $errMessage = "Invalid e-mail format";
+                }
+                break;
+            case "m_password":
+                if (strlen($p_value) < self::MIN_PASSW)
+                {
+                    $errMessage = "At least ". self::MIN_PASSW ." characters required";
+                }
+                elseif (preg_match('/[A-Z]/', $p_value) === 0)
+                {
+                    $errMessage = "At least 1 upper case letter required";
+                }
+                elseif(preg_match('/[a-z]/', $p_value) === 0)
+                {
+                    $errMessage = "At least 1 lower case letter required";
+                }
+                elseif(preg_match('/[0-9]/', $p_value) === 0)
+                {
+                    $errMessage = "At least 1 number required";
+                }
+                break;
+            case "m_userID":
+                if (filter_var($p_value, FILTER_VALIDATE_INT) === false)
+                {
+                    $errMessage = "Invalid integer input";
+                }
+                elseif ($p_value < 0)
+                {
+                    $errMessage = "Has to be greater than or equal to 0";
+                }
+                break;
+            case "m_role":
+                if (!in_array($p_value, self::ROLES))
+                {
+                    $errMessage = "Has to be customer or admin";
+                }
+                break;
+            case "m_isActive":
+                if ($p_value !==0 && $p_value !== 1 && filter_var($p_value, FILTER_VALIDATE_BOOLEAN) === false)
+                {
+                    $errMessage = "Has to be true or false";
+                }
+                break;
             }
         }
         
@@ -280,77 +334,295 @@ class RegisteredUser
      * If the given email and password do not match a registered user in the database,
      * a non-empty error message is returned.
      */
-    public static function checkLogin($p_email, $p_password, $config)
+    public static function checkLogin($p_email, $p_password, $connection)
     {
         $errMessage = "The email you entered cannot be identified";
         $primaryKey = false;
         $firstname = $role = $passw = NULL;
         $p_password = hash(self::HASH, $p_password);
 
-        $query = "SELECT * FROM registeredUser WHERE email='". $p_email ."' AND isActive=true;";
-        $connection = new Connection($config);
-        $result = $connection->queryResult($query);
-        while ($row = $result->fetch_array())
+        $query = "SELECT userID, firstname, role, passw FROM registeredUser
+            WHERE email=? AND isActive=true";
+        try
         {
-            $primaryKey = $row['userID'];
-            $firstname = $row['firstname'];
-            $role = $row['role'];
-            $passw = $row['passw'];
-        }
-        $result->close();
-        $connection->close();
-        if (!is_null($passw) && $passw === $p_password)
+            if (($stmt = $connection->prepare($query)) === false)
+            {
+                throw new MySQLException("Preparation of query failed."); 
+            }
+            if (($stmt->bind_param('s', $p_email)) === false)
+            {
+                throw new MySQLException("Binding parameters failed."); 
+            }
+            if (($stmt->execute()) === false)
+            {
+                throw new MySQLException("Query execution failed."); 
+            }
+        } catch (MySQLException $e)
         {
-            $errMessage = "";
+            $e->HandleException();
+            die();
         }
-        else
+        $stmt->bind_result($primaryKey, $firstname, $role, $passw);
+        while ($stmt->fetch());
+        if (!is_null($firstname))
         {
-            $errMessage = "The password you entered was incorrect";
+            if (!is_null($passw) && $passw === $p_password)
+            {
+                $errMessage = "";
+            }
+            else
+            {
+                $errMessage = "The password you entered was incorrect";
+            }
         }
+        $stmt->close();
 
         return array($errMessage, $primaryKey, $firstname, $role);
     } // end function checkLogin
 
-    /*
-     * check for duplicate users in database
-     * This function checks if the e-mail address is not yet included in the database.
-     */
-    /*private function isDuplicate($connection)
+    // Print the invoice addres of the user with the given userID
+    // returns the custAddressID of the invoice address
+    public static function printFactAddress($userID, $connection)
     {
-        $query = "SELECT * FROM registeredUser WHERE email = '". $this->m_email ."';";
-        if (($connection->queryNoRows($query)) === 0)
+
+        $query = "SELECT ru.firstname, ru.surname, ca.custAddressID,
+                a.street, a.hNumber, a.box, a.postalCode, a.city, a.country
+            FROM registeredUser ru
+                INNER JOIN customerAddress ca
+                ON ru.userID = ca.userID
+                INNER JOIN address a
+                ON ca.addressID = a.addressID
+            WHERE ru.userID = ". $userID ."
+                AND ca.isActive = true
+                AND ca.isInvoice = true;";
+        $result = $connection->queryResult($query);
+        while ($row = $result->fetch_array())
         {
-            return false;
+            echo("\t\t\t\t<p class='bold'>". htmlspecialchars($row['firstname']) ." ". htmlspecialchars($row['surname']) ."</p>\n");
+            echo("\t\t\t\t<p>". htmlspecialchars($row['street']) ." ". htmlspecialchars($row['hNumber']) ." ". (is_null($row['box'])? "" : htmlspecialchars($row['box'])) ."</p>\n");
+            echo("\t\t\t\t<p>". htmlspecialchars($row['postalCode']) ." ". htmlspecialchars($row['city']) ."</p>\n");
+            echo("\t\t\t\t<p>". htmlspecialchars($row['country']) ."</p>\n");
+            $custAddressID = $row['custAddressID'];
         }
 
-        return true;
-    }*/ // end function isDuplicate
+        return $custAddressID;
+    } // end function printFactAddress
 
+    // Print the shipping addresses of the user with the given userID
+    public static function printShipAddress($userID, $connection)
+    {
+        $query = "SELECT ru.firstname, ru.surname, ca.custAddressID, ca.tao,
+                a.street, a.hNumber, a.box, a.postalCode, a.city, a.country
+            FROM registeredUser ru
+                INNER JOIN customerAddress ca
+                ON ru.userID = ca.userID
+                INNER JOIN address a
+                ON ca.addressID = a.addressID
+            WHERE ru.userID = ". $userID ."
+                AND ca.isActive = true
+                AND ca.isInvoice = false;";
+        $result = $connection->queryResult($query);
+        echo("\t\t\t\t\t<p><input class='radio' type='radio' name='shipAddress' value='-1' checked>Same as invoice address</p>\n");
+        while ($row = $result->fetch_array())
+        {
+            echo("\t\t\t\t<p class='bold'><input class='radio' type='radio' name='shipAddress' value='". $row['custAddressID'] ."'>");
+            
+            if (is_null($row['tao'])) echo(htmlspecialchars($row['firstname']) ." ". htmlspecialchars($row['surname']));
+            else echo($row['tao']);
+            echo("</p>\n");
+            echo("\t\t\t\t\t<p class='marginLeft'>". htmlspecialchars($row['street']) ." ". htmlspecialchars($row['hNumber']) . (is_null($row['box'])? "" : " box ". htmlspecialchars($row['box'])) ."</p>\n");
+            echo("\t\t\t\t\t<p class='marginLeft'>". htmlspecialchars($row['postalCode']) ." ". htmlspecialchars($row['city']) ."</p>\n");
+            echo("\t\t\t\t\t<p class='marginLeft'>". htmlspecialchars($row['country']) ."</p>\n");
+        }
+    } // end function printShipAddress
+
+    // Get an array of all RegisteredUsers
+    public static function getAllUsers($connection)
+    {
+        $usersArray = array();
+        $query = "SELECT * FROM registeredUser;";
+        $result = $connection->queryResult($query);
+        while($row = $result->fetch_array())
+        {   
+            $usersArray[] = new RegisteredUser($row['firstname'], $row['surname'], $row['email'],
+                $row['passw'], $row['userID'], $row['role'], (int)$row['isActive']);
+        }
+        $result->close();
+
+        return $usersArray;
+    } // end function getAllUsers
+
+    // Change the role of the user with the given userID
+    // A non-empty error message is returned if the role has not been changed
+    public static function changeRole($userID, $connection)
+    {
+        $role = "";
+        $errMessage = "";
+        $query = "SELECT role FROM registeredUser WHERE userID = ?";
+        try
+        {
+            if (($stmt = $connection->prepare($query)) === false)
+            {
+                throw new MySQLException("Preparation of query failed."); 
+            }
+            if (($stmt->bind_param('i', $userID)) === false)
+            {
+                throw new MySQLException("Binding parameters failed."); 
+            }
+            if (($stmt->execute()) === false)
+            {
+                throw new MySQLException("Query execution failed."); 
+            }
+        } catch (MySQLException $e)
+        {
+            $e->HandleException();
+            die();
+        }
+
+        $stmt->bind_result($role);
+        $stmt->fetch();
+        $stmt->close();
+        if (is_null($role))
+        {
+            $errMessage = "The user with the given userID could not be found.";
+        }
+        else
+        {
+            if ($role == 'customer') $role = 'admin';
+            else $role = 'customer';
+            $query = "UPDATE registeredUser SET role = '". $role ."' WHERE userID = ?";
+            try
+            {
+                if (($stmt = $connection->prepare($query)) === false)
+                {
+                    throw new MySQLException("Preparation of query failed."); 
+                }
+                if (($stmt->bind_param('i', $userID)) === false)
+                {
+                    throw new MySQLException("Binding parameters failed."); 
+                }
+                if (($stmt->execute()) === false)
+                {
+                    throw new MySQLException("Query execution failed."); 
+                }
+            } catch (MySQLException $e)
+            {
+                $e->HandleException();
+                die();
+            }
+        }
+
+        return $errMessage;
+    } // end function changeRole
+
+    // change the status of the user with the given userID
+    // If the status could not be changed, a non-empty error message is returned.
+    public static function changeStatus($userID, $connection)
+    {
+        $isActive = 0;
+        $errMessage = "";
+        $query = "SELECT isActive FROM registeredUser WHERE userID = ?";
+        try
+        {
+            if (($stmt = $connection->prepare($query)) === false)
+            {
+                throw new MySQLException("Preparation of query failed."); 
+            }
+            if (($stmt->bind_param('i', $userID)) === false)
+            {
+                throw new MySQLException("Binding parameters failed."); 
+            }
+            if (($stmt->execute()) === false)
+            {
+                throw new MySQLException("Query execution failed."); 
+            }
+        } catch (MySQLException $e)
+        {
+            $e->HandleException();
+            die();
+        }
+        $stmt->bind_result($isActive);
+        $stmt->fetch();
+        if (is_null($isActive))
+        {
+            $errMessage = "The user with the given userID could not be found.";
+        }
+        else
+        {
+            $isActive = ($isActive ? 0 : 1);
+            $stmt->close();
+            $query = "UPDATE registeredUser SET isActive = ". $isActive ." WHERE userID = ?";
+            try
+            {
+                if (($stmt = $connection->prepare($query)) === false)
+                {
+                    throw new MySQLException("Preparation of query failed."); 
+                }
+                if (($stmt->bind_param('i', $userID)) === false)
+                {
+                    throw new MySQLException("Binding parameters failed."); 
+                }
+                if (($stmt->execute()) === false)
+                {
+                    throw new MySQLException("Query execution failed."); 
+                }
+            } catch (MySQLException $e)
+            {
+                $e->HandleException();
+                die();
+            }
+        }
+        $stmt->close();
+
+        return $errMessage;
+    } // end function changeStatus
     /*
      * get the primary of this RegisteredUser
      * Function getPrimaryKey returns an array of the primary key and the value
      * of the field isActive.
      * If this RegisteredUser is not found in the database, false is returned
-     * as primary key
+     * as primary key.
      */
-
     private function getPrimaryKey($connection)
     {
-        $query = "SELECT userID, isActive FROM registeredUser WHERE email='". $this->m_email ."';";
-        $result = $connection->queryResult($query);
-        $noRows = $result->num_rows;
-        if ($noRows === 0)
+        $query = "SELECT userID, isActive FROM registeredUser WHERE email = ?";
+        try
         {
-            $result->close();
-            return false;
+            if (($stmt = $connection->prepare($query)) === false)
+            {
+                throw new MySQLException("Preparation of query failed."); 
+            }
+            if (($stmt->bind_param('s', $this->m_email)) === false)
+            {
+                throw new MySQLException("Binding parameters failed."); 
+            }
+            if (($stmt->execute()) === false)
+            {
+                throw new MySQLException("Query execution failed."); 
+            }
+            if (($stmt->store_result()) === false)
+            {
+                throw new MySQLException("Query result storage failed.");
+            }
+        } catch (MySQLException $e)
+        {
+            $e->HandleException();
+            die();
         }
-        $row = $result->fetch_array();
-        $primaryKey = $row['userID'];
-        $isActive = $row['isActive'];
-        $result->close();
+        if ($stmt->num_rows === 0)
+        {
+            $primaryKey = false;
+            $isActive = false;
+        }
+        else
+        {
+            $stmt->bind_result($primaryKey, $isActive);
+            $stmt->fetch();
+        }
+        $stmt->free_result();
+        $stmt->close();
 
         return array($primaryKey, $isActive);
     } // end function getPrimaryKey
-
 } // end class RegisteredUser
 ?>

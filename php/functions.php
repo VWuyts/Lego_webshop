@@ -37,7 +37,7 @@
 		$content .= " */\n\n";
 		$content .= "require '../php/functions.php';\n";
 		$content .= "createHead(false, 'Legoshop | error', ['message'], ['message']);\n";
-		$content .= "createHeader(false, false, false);\n";
+		$content .= "createHeader(false, NULL, false);\n";
 		$content .= "?>\n";
 		$content .= "\t<div class='center'>\n";
 		for ($i = 0; $i < count($messageArray); $i++)
@@ -50,18 +50,20 @@
 		$content .= "<?php\n";
 		$content .= "createFooter(false);\n";
 		$content .= "?>\n";
-		file_put_contents("../message/error.php", $content);
-		header("Location: ../message/error.php");
+		$path = (basename(getcwd()) == "Lego_webshop" ? "" : "../");
+		file_put_contents($path ."message/error.php", $content);
+		header("Location: ". $path ."message/error.php");
 	} // end function createErrorPage
 
 	/* 
 	 * Function createMessagePage creates the default Legoshop message page and redirects to this page.
 	 * Parameter messageArray: array of strings; message(s) to be displayed on the message page
 	 * 			 user: string; the user which is logged on or null if no user is logged on
+	 * 			 isAdmin: boolean; has the logged on user access to the admin pages
 	 *			 php: string; the php page that is referenced in the link button
 	 *			 button: string: the value of the link button
 	 */
-	function createMessagePage($messageArray, $user, $php, $button)
+	function createMessagePage($messageArray, $user, $isAdmin, $php, $button)
 	{
 		$content = "<?php\n";
 		$content .= "/* Lego Webshop\n";
@@ -76,7 +78,8 @@
 		$content .= " */\n\n";
 		$content .= "require '../php/functions.php';\n";
 		$content .= "createHead(false, 'Legoshop | message', ['message'], NULL);\n";
-		$content .= "createHeader". (is_null($user) ? "(false, NULL)" : "(false, $user)") .";\n";
+		$content .= "createHeader(false, ". (is_null($user) ? "NULL" : "$user") .", ".
+			($isAdmin ? "true" : "false").");\n";
 		$content .= "?>\n";
 		$content .= "\t<div class='center'>\n";
 		for ($i = 0; $i < count($messageArray); $i++)
@@ -88,14 +91,15 @@
 		$content .= "<?php\n";
 		$content .= "createFooter(false);\n";
 		$content .= "?>\n";
-		file_put_contents("../message/message.php", $content);
-		header("Location: ../message/message.php");
+		$path = (basename(getcwd()) == "Lego_webshop" ? "" : "../");
+		file_put_contents($path ."message/message.php", $content);
+		header("Location: ". $path ."message/message.php");
 	} // end function createMessagePage
 
 	/* 
 	 * Function createHead creates the default Lego webshop HTML head.
-	 * Parameter inDirPhp: true  = the script calling the function is located in the message folder
-	 * 					   false = the script calling the function is located in the php folder
+	 * Parameter inDirPhp: false  = the script calling the function is located in the message folder
+	 * 					   true = the script calling the function is located in the php folder
 	 * 					   NULL  = the script calling the function is index.php
 	 * 			 title: string; title for the HTML page
 	 *			 cssArray: array of strings; additional css files to be loaded, null if to be omitted
@@ -105,7 +109,7 @@
 	{
 		$dir = is_null($inDirPhp) ? "" : "../";
 		echo("<!doctype html>\n");
-		echo("<html>\n");
+		echo("<html lang='en'>\n");
 		echo("<head>\n");
 		echo("\t<meta charset='utf-8'>\n");
 		echo("\t<title>$title</title>\n");
@@ -128,8 +132,8 @@
     
 	/* 
 	 * Function createHeader creates the default Lego webshop header division.
-	 * Parameter inDirPhp: true  = the script calling the function is located in the message folder
-	 * 					   false = the script calling the function is located in the php folder
+	 * Parameter inDirPhp: true  = the script calling the function is located in the php folder
+	 * 					   false = the script calling the function is located in the message folder
 	 * 					   NULL  = the script calling the function is index.php
 	 * 			 user: string; the user which is logged on or null if no user is logged on
 	 *			 isAdmin: boolean; has the logged on user access to the admin pages
@@ -149,7 +153,7 @@
 			echo("\t\t\t\t\t\t\t<ul>\n");
 			echo("\t\t\t\t\t\t\t\t<li>\n");
 			echo("\t\t\t\t\t\t\t\t\t<p class='lightGrey textCenter'>Sign in to your Lego account</p>\n");
-			echo("\t\t\t\t\t\t\t\t\t\t<a id='loginBtn' href='".
+			echo("\t\t\t\t\t\t\t\t\t<a id='loginBtn' href='".
 				(is_null($inDirPhp) ? "php/" : ($inDirPhp ? "" : "../php/"))."login.php'>Sign in</a>\n");
 			echo("\t\t\t\t\t\t\t\t</li>\n");
 			echo("\t\t\t\t\t\t\t\t<li>\n");
@@ -170,21 +174,23 @@
 					(is_null($inDirPhp) ? "php/" : ($inDirPhp ? "" : "../php/")) ."admin.php'>Admin pages</a>\n");
 				echo("\t\t\t\t\t\t</li>\n");
 			}
-			// TODO: add number of items to shopping bag
+			//number of items to shopping bag
+			if (isset($_SESSION['bag']['amount'])) $items = array_sum($_SESSION['bag']['amount']);
+			else $items = 0;
 			echo("\t\t\t\t\t\t<li>\n");
 			echo("\t\t\t\t\t\t\t<img src='". (is_null($inDirPhp) ? "" : "../") ."images/lego-bag.png' alt='Lego shopping bag' />\n");
-			echo("\t\t\t\t\t\t\t<a href='". 
-				(is_null($inDirPhp) ? "php/" : ($inDirPhp ? "" : "../php/")) ."shoppingBag.php'>Shopping bag</a>\n");
+			echo("\t\t\t\t\t\t\t<a href='". (is_null($inDirPhp) ? "php/" : ($inDirPhp ? "" : "../php/"))
+				."shoppingBag.php'>Shopping bag (". $items .")</a>\n");
 			echo("\t\t\t\t\t\t</li>\n");
 			echo("\t\t\t\t\t\t<li>\n");
 			echo("\t\t\t\t\t\t\t<img src='". (is_null($inDirPhp) ? "" : "../") ."images/lego-head.png' alt='Lego head' />\n");
 			echo("\t\t\t\t\t\t\t<a href=''>Account</a>\n");
 			echo("\t\t\t\t\t\t\t<ul>\n");
-			echo("\t\t\t\t\t\t\t\t<li>");
+			echo("\t\t\t\t\t\t\t\t<li>\n");
 			echo("\t\t\t\t\t\t\t<img id='ninja' src='".
 				(is_null($inDirPhp) ? "" : "../") ."images/lego-ninja.png' alt='Lego Ninja figure' />\n");
 			echo("\t\t\t\t\t\t\t\t\t<p>$user</p>\n");
-			echo("\t\t\t\t\t\t\t\t\t<a href='".
+			/*echo("\t\t\t\t\t\t\t\t\t<a href='".
 				(is_null($inDirPhp) ? "php/" : ($inDirPhp ? "" : "../php/")) ."account.php'>View your Lego account</a>\n");
 			echo("\t\t\t\t\t\t\t\t</li>\n");
 			echo("\t\t\t\t\t\t\t\t<li>\n");
@@ -192,6 +198,12 @@
 				(is_null($inDirPhp) ? "" : "../") ."images/lego-order-status.svg' alt='Lego truck' />\n");
 			echo("\t\t\t\t\t\t\t\t\t<a href='".
 				(is_null($inDirPhp) ? "php/" : ($inDirPhp ? "" : "../php/")) ."orderStatus.php'>Check order status</a>\n");
+			echo("\t\t\t\t\t\t\t\t</li>\n");*/
+			echo("\t\t\t\t\t\t\t\t<li>\n");
+			echo("\t\t\t\t\t\t\t\t\t<img id='mug' src='".
+				(is_null($inDirPhp) ? "" : "../") ."images/mug.png' alt='Lego mug' />\n");
+			echo("\t\t\t\t\t\t\t\t\t<a href='".
+				(is_null($inDirPhp) ? "php/" : ($inDirPhp ? "" : "../php/")) ."logout.php'>Logout</a>\n");
 			echo("\t\t\t\t\t\t\t\t</li>\n");
 			echo("\t\t\t\t\t\t\t</ul>\n");
 			echo("\t\t\t\t\t\t</li>\n");
@@ -215,12 +227,10 @@
 		echo("\t\t\t\t\t<span id='shop'>SHOP</span>\n");
 		echo("\t\t\t\t</a>\n");
 		echo("\t\t\t\t<div id='links'>\n");
-		echo("\t\t\t\t\t<form action='". (is_null($inDirPhp) ? "php/" : ($inDirPhp ? "" : "../php/")) ."home.php' method='post'>\n");
-		echo("\t\t\t\t\t\t<input class='linkBtn' type='submit' name='sets' value='SETS' />\n");
-		echo("\t\t\t\t\t\t<input class='linkBtn' type='submit' name='exclusives' value='EXCLUSIVES' />\n");
-		echo("\t\t\t\t\t\t<input class='linkBtn' type='submit' name='hardToFind' value='HARD TO FIND' />\n");
-		echo("\t\t\t\t\t\t<input class='linkBtn' type='submit' name='extras' value='EXTRAS'>\n");
-		echo("\t\t\t\t\t</form>\n");
+		echo("\t\t\t\t\t<a class='linkBtn' href='". (is_null($inDirPhp) ? "php/" : ($inDirPhp ? "" : "../php/")) ."buildingSets.php'>SETS</a>\n");
+		echo("\t\t\t\t\t<a class='linkBtn' href='". (is_null($inDirPhp) ? "php/" : ($inDirPhp ? "" : "../php/")) ."buildingSets.php?filter=exclusives'>EXCLUSIVES</a>\n");
+		echo("\t\t\t\t\t<a class='linkBtn' href='". (is_null($inDirPhp) ? "php/" : ($inDirPhp ? "" : "../php/")) ."buildingSets.php?filter=hardToFind'>HARD TO FIND</a>\n");
+		echo("\t\t\t\t\t<a class='linkBtn' href='". (is_null($inDirPhp) ? "php/" : ($inDirPhp ? "" : "../php/")) ."extras.php'>EXTRAS</a>\n");
 		echo("\t\t\t\t</div> <!-- end links -->\n");
 		echo("\t\t\t<p class='spacer'></p>\n");
 		echo("\t\t\t</div> <!-- end center -->\n");
@@ -231,15 +241,14 @@
 
     /*
 	 * Function createFooter creates the default Lego webshop footer.
-	 * Parameter inDirPhp: true  = the script calling the function is located in the message folder
-	 * 					   false = the script calling the function is located in the php folder
+	 * Parameter inDirPhp: true  = the script calling the function is located in the php folder
+	 * 					   false = the script calling the function is located in the message folder
 	 * 					   NULL  = the script calling the function is index.php
 	 */
 	function createFooter($inDirPhp)
 	{
 		echo("\t</div> <!-- end content -->\n\n");
 		echo("\t<footer>\n");
-		// TODO: add grey part of footer
 		echo("\t\t<div class='center'>\n");
 		echo("\t\t\t<div id='footerright'>\n");
 		echo("\t\t\t\t<a href='http://www.thomasmore.be/' title='to Thomas More homepage' target='_blank'>\n");
@@ -253,7 +262,7 @@
 		echo("\t\t\t\t<a href='https://www.lego.com' title='To LEGO.com' target='_blank'>\n");
 		echo("\t\t\t\t\t<img id='logolego' src='". (is_null($inDirPhp) ? "" : "../") ."images/lego-logo.svg' alt='logo Lego' />\n");
 		echo("\t\t\t\t</a>\n");
-		echo("\t\t\t\t<p>Last update 03-12-2017</p>\n");
+		echo("\t\t\t\t<p>Last update 27-12-2017</p>\n");
 		echo("\t\t\t</div>\n");
 		echo("\t\t\t<p class='spacer'></p>\n");
 		echo("\t\t</div> <!-- end red part of footer -->\n");

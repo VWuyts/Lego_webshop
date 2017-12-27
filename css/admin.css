@@ -1,0 +1,75 @@
+/* Lego Webshop
+ *
+ * Lab assignment for course PHP & MySQL 2017
+ * Thomas More campus De Nayer
+ * Bachelor Elektronica-ICT -- Application Development
+ * 
+ * Véronique Wuyts
+ *
+ * Stylesheet for admin pages
+ */
+
+.button{
+    font-size: 14px;
+    line-height: 20px;
+    color: #fff;
+    background-color: #06c;
+    border: 1px solid #004d99;
+    border-radius: 3px;
+    padding: 5px 30px;
+}
+.button:hover{
+    background-color: #004d99;
+}
+.btnBox{
+    margin-top: 40px;
+}
+.btnBox p{
+    margin-top: 30px;
+}
+.changeTable input{
+    box-sizing: border-box;
+    width: 400px;
+    font-size: 14px;
+    padding: 5px;
+}
+.changeTable select{
+    box-sizing: border-box;
+    width: 400px;
+    font-size: 14px;
+    padding: 5px;
+}
+.floatR{
+    float: right;
+}
+.marginRight{
+    margin-right: 200px;
+}
+.marginTop{
+    margin-top: 40px;
+}
+.red{
+    color: #f00;
+}
+.textinput{
+    font-size: 16px;
+    width: 400px;
+    border: 1px solid #004d99;
+    border-radius: 3px;
+    padding: 5px;
+    margin: 5px 0px;
+}
+table{
+    width: 100%;
+}
+td, th{
+    vertical-align: middle;
+    height: 30px;
+}
+th{
+    text-align: left;
+    font-weight: bold;
+}
+td a{
+    color: #06c;
+}

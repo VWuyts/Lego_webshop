@@ -1,0 +1,102 @@
+/* Lego Webshop
+ *
+ * Lab assignment for course PHP & MySQL 2017
+ * Thomas More campus De Nayer
+ * Bachelor Elektronica-ICT -- Application Development
+ * 
+ * Véronique Wuyts
+ *
+ * Stylesheet for sets and extras pages
+ */
+
+#setsContent{
+    width: 800px;
+    float: left;
+}
+.filter{
+    border-bottom: 2px solid #f2f2f2;
+    padding: 10px;
+    font-size: 14px;
+}
+.filterLink{
+    color: #06c;
+    text-align: center;
+}
+.filterLink a:hover{
+    text-decoration: underline;
+}
+.filterCheckbox{
+    margin-right: 10px;
+}
+.filterLabel{
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+.left{
+    text-align: left;
+}
+.message{
+    padding-left: 20px;
+}
+.paddingBottom{
+    padding-bottom: 5px;
+}
+.product{
+    width: 242px;
+    border: 2px solid #f2f2f2;
+    float: left;
+    text-align: center;
+    margin: 0px 0px 20px 20px;
+}
+.product .addToBag{
+    border-top: 1px solid #f2f2f2;
+    padding: 10px;
+}
+.product .btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 34px;
+    color: #fff;
+    background-color: #06c;
+    border: 1px solid #004d99;
+    border-radius: 3px;
+}
+.product .btn:hover{
+    background-color: #004d99;
+}
+.product img{
+    height: 182px;
+}
+.product .info{
+    border-top: 1px solid #f2f2f2;
+    padding: 10px;
+}
+.product .label{
+    background-color: #f90;
+    line-height: 20px;
+}
+.product .labelEmpty{
+    line-height: 20px;
+}
+.product .pName{
+    font-weight: bold;
+    padding-top: 5px;
+    height: 40px;
+}
+.product .price{
+    font-weight: bold;
+    padding-top: 20px;
+}
+.right{
+    text-align: right;
+}
+.sideMenu{
+    display: block;
+    float: left;
+    width: 200px;
+    border-top: 2px solid #f2f2f2;
+    border-right: 2px solid #f2f2f2;
+    border-left: 2px solid #f2f2f2;
+}

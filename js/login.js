@@ -5,6 +5,8 @@
  * Bachelor Elektronica-ICT -- Application Development
  * 
  * Véronique Wuyts
+ * 
+ * login.js
  */
 
 function checkLogin()
@@ -20,7 +22,6 @@ function checkLogin()
     {
         emailOK = 1;
         document.getElementById("err").innerHTML = "The email you entered cannot be identified";
-        document.getElementById("err").style.visibility = "visible";
     }
     else
     {
@@ -31,13 +32,11 @@ function checkLogin()
         {
             passwOK = 1
             document.getElementById("err").innerHTML = "The password you entered was incorrect";
-            document.getElementById("err").style.visibility = "visible";
         }
         else
         {
             passwOK = 0;
             document.getElementById("err").innerHTML = "";
-            document.getElementById("err").style.visibility = "hidden";
         }
     }
     

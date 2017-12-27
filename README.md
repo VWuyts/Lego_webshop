@@ -13,7 +13,7 @@ Lego_webshop
 - classes
 - conf
 - css
-- errorlog
+- errorLog
 - images
 - js
 - message

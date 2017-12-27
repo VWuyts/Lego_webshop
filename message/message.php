@@ -11,14 +11,13 @@
  */
 
 require '../php/functions.php';
-createHead(true, 'Legoshop | message', ['message'], NULL);
-createHeader(true, NULL);
+createHead(false, 'Legoshop | message', ['message'], NULL);
+createHeader(false, NULL, false);
 ?>
 	<div class='center'>
-		<p class='message'>Your Lego account has been created.</p>
-		<p class='message'>You can now sign in.</p>
-		<p><a href='../php/home.php'>Back to home page</a></p>
+		<p class='message'>You have been logged out.</p>
+		<p><a href='../index.php'>Back to home page</a></p>
 	</div> <!-- end center -->
 <?php
-createFooter(true);
+createFooter(false);
 ?>

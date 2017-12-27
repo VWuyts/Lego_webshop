@@ -6,24 +6,20 @@
  * 
  * Véronique Wuyts
  *
- * register.js
+ * addAddress.js
  */
 
-// check input fields for registration
-function checkRegister()
+// check input fields for shipping address
+function checkAddress()
 {
     var MIN_SHORT = 1;
     var MIN_LONG = 2;
-    var MIN_NAME = 2;
-    var MIN_PASSW = 8;
+    var MIN_TAO = 2;
     var MAX_LONG = 50;
-    var MAX_NAME = 50;
     var MAX_SHORT = 8;
+    var MAX_TAO = 100;
 
-    var firstname = document.getElementById("firstname").value;
-    var surname = document.getElementById("surname").value;
-    var email = document.getElementById("email").value;
-    var passw = document.getElementById("passw").value;
+    var tao = document.getElementById("tao").value;
     var street = document.getElementById("street").value;
     var hNumber = document.getElementById("hNumber").value;
     var box = document.getElementById("box").value;
@@ -31,10 +27,7 @@ function checkRegister()
     var city = document.getElementById("city").value;
     var country = document.getElementById("country").value;
 
-    var firstnameOK = 1;
-    var surnameOK = 1;
-    var emailOK = 1;
-    var passwOK = 1;
+    var taoOK = 1;
     var streetOK = 1;
     var hNumberOK = 1;
     var boxOK = 1;
@@ -42,122 +35,32 @@ function checkRegister()
     var cityOK = 1;
     var countryOK = 1;
 
-    // check first name
-    if (firstname == "")
+    // check tao
+    if (tao == "")
     {
-        firstnameOK = 1;
-        document.getElementById("firstnameErr").innerHTML = "* First name is required";
+        taoOK = 0;
+        document.getElementById("taoErr").innerHTML = "";
     }
     else
     {
-        if (firstname.length < MIN_NAME)
+        if (tao.length < MIN_TAO)
         {
-            firstnameOK = 1;
-            document.getElementById("firstnameErr").innerHTML = "* At least "+ MIN_NAME +" characters required";
+            taoOK = 1;
+            document.getElementById("taoErr").innerHTML = " At least "+ MIN_TAO +" characters required";
         }
         else
         {
-            if (firstname.length > MAX_NAME)
+            if (tao.length > MAX_TAO)
             {
-                firstnameOK = 1;
-                document.getElementById("firstnameErr").innerHTML = "* Maximum "+ MAX_NAME +" characters allowed";
+                taoOK = 1;
+                document.getElementById("taoErr").innerHTML = " Maximum "+ MAX_TAO +" characters allowed";
             }
             else
             {
-                firstnameOK = 0;
-                document.getElementById("firstnameErr").innerHTML = "* ";
+                taoOK = 0;
+                document.getElementById("taoErr").innerHTML = "";
             }
         }
-    }
-    // check surname
-    if (surname == "")
-    {
-        surnameOK = 1;
-        document.getElementById("surnameErr").innerHTML = "* Surname is required";
-    }
-    else
-    {
-        if (surname.length < MIN_NAME)
-        {
-            surnameOK = 1;
-            document.getElementById("surnameErr").innerHTML = "* At least "+ MIN_NAME +" characters required";
-        }
-        else
-        {
-            if (surname.length > MAX_NAME)
-            {
-                surnameOK = 1;
-                document.getElementById("surnameErr").innerHTML = "* Maximum "+ MAX_NAME +" characters allowed";
-            }
-            else
-            {
-                surnameOK = 0;
-                document.getElementById("surnameErr").innerHTML = "* ";
-            }
-        }
-    }
-    // check email
-    if (email == "")
-    {
-        emailOK = 1;
-        document.getElementById("emailErr").innerHTML = "* E-mail is required";
-    }
-    else
-    {
-        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)))
-        {
-            emailOK = 1;
-            document.getElementById("emailErr").innerHTML = "* Invalid e-mail format";
-        }
-        else
-        {
-            emailOK = 0;
-            document.getElementById("emailErr").innerHTML = "* ";
-        }
-    }
-    // check password
-    if (passw == "")
-    {
-        passwOK = 1;
-        document.getElementById("passwErr").innerHTML = "* Password is required";
-    }
-    else
-    {
-        if (passw.length < MIN_PASSW)
-        {
-            passwOK = 1;
-            document.getElementById("passwErr").innerHTML = "* At least "+ MIN_PASSW +" characters required";
-        }
-        else
-        {
-            if (!/[A-Z]/.test(passw))
-            {
-                passwOK = 1;
-                document.getElementById("passwErr").innerHTML = "* At least 1 upper case letter required";
-            }
-            else
-            {
-                if (!/[a-z]/.test(passw))
-                {
-                    passwOK = 1;
-                    document.getElementById("passwErr").innerHTML = "* At least 1 lower case letter required";
-                }
-                else
-                {
-                    if (!/[0-9]/.test(passw))
-                    {
-                        passwOK = 1;
-                        document.getElementById("passwErr").innerHTML = "* At least 1 number required";
-                    }
-                    else
-                    {
-                        passwOK = 0;
-                        document.getElementById("passwErr").innerHTML = "* ";
-                    }
-                }
-                
-            }
-        }    
     }
     // check street
     if (street == "")
@@ -307,10 +210,9 @@ function checkRegister()
     }
 
     // decide if OK to send to server
-    if (firstnameOK + surnameOK + emailOK + passwOK + 
-        streetOK + hNumberOK + boxOK + postalCodeOK + cityOK + countryOK > 0)
+    if (taoOK + streetOK + hNumberOK + boxOK + postalCodeOK + cityOK + countryOK > 0)
     {
         return false;
     }
     return true;
-} // end function checkRegister
+} // end function checkAddress

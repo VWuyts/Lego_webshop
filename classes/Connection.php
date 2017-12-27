@@ -10,31 +10,51 @@
  * Class Connection
  */
 
+require_once("MySQLException.php");
+require_once("../php/functions.php");
 require_once("../php/errorhandling.php");
+require_once("../php/exceptionhandling.php");
 
 class Connection extends mysqli
 {
-    // constructor
-    public function __construct($config)
-    {
-        parent::__construct($config['host'], $config['user'], $config['passw'], $config['db'], $config['port']);
+    // constants
+    private const HOST = 'localhost';
+    private const PORT = 3306;
+    private const USER = 'Webgebruiker';
+    private const PASSW = 'Labo2017';
+    private const DB = 'Legoshop';
 
-        if(mysqli_connect_error())
+    // constructor
+    public function __construct()
+    {
+        try
         {
-            $backtrace = debug_backtrace();
-            trigger_error("001@1@". mysqli_connect_errno() ."@". mysqli_connect_error()
-                ."@".$backtrace[1]['file']."@".$backtrace[1]['line'], E_USER_ERROR);
+            parent::__construct(self::HOST, self::USER, self::PASSW, self::DB, self::PORT);
+            if(mysqli_connect_error())
+            {
+                throw new MySQLException("The connection to the database failed.");
+            }
+        } catch (MySQLException $e)
+        {
+            $e->HandleException();
             die();
         }
+        
     } // end constructor
 
     // query the database and return true on success
+    // Only to be used for queries without user input
     public function queryBool($query)
     {
-        if(($result = $this->query($query)) === false)
+        try
         {
-            $backtrace = debug_backtrace();
-            trigger_error("002@0@".$backtrace[1]['file']."@".$backtrace[1]['line'], E_USER_ERROR);
+            if(($result = $this->query($query)) === false)
+            {
+                throw new MySQLException("A database query failed.");
+            }
+        } catch (MySQLException $e)
+        {
+            $e->HandleException();
             die();
         }
         
@@ -42,27 +62,39 @@ class Connection extends mysqli
     } // end function queryBool
 
     // query the database and return the number of rows on success
+    // Only to be used for queries without user input
     public function queryNoRows($query)
     {
-        if(($result = $this->query($query)) === false)
+        try
         {
-            $backtrace = debug_backtrace();
-            trigger_error("002@0@".$backtrace[1]['file']."@".$backtrace[1]['line'], E_USER_ERROR);
+            if(($result = $this->query($query)) === false)
+            {
+                throw new MySQLException("A database query failed.");
+            }
+            $noRows = $result->num_rows;
+            $result->close();
+        } catch (MySQLException $e)
+        {
+            $e->HandleException();
             die();
         }
-        $noRows = $result->num_rows;
-        $result->close();
-
+        
         return $noRows;
     } // end function queryNoRows
 
     // query the database and return an open result set on success
+    // Only to be used for queries without user input
     public function queryResult($query)
     {
-        if(($result = $this->query($query)) === false)
+        try
         {
-            $backtrace = debug_backtrace();
-            trigger_error("002@0@".$backtrace[1]['file']."@".$backtrace[1]['line'], E_USER_ERROR);
+            if(($result = $this->query($query)) === false)
+            {
+                throw new MySQLException("A database query failed.");
+            }
+        } catch (MySQLException $e)
+        {
+            $e->HandleException();
             die();
         }
         

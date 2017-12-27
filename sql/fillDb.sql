@@ -166,5 +166,5 @@ VALUES	(5.95, 0, "Belgium"),
 		(0, 50, "Luxembourg"),
 		(0, 50, "Germany"),
 		(0, 50, "France"),
-		(0, 0, "legoland")
+		(0, 0, "Legoland")
 ;

@@ -7,7 +7,7 @@
  * 
  * Véronique Wuyts
  * 
- * Registration page
+ * Page to add shipping address
  */
 
     session_start();
@@ -15,50 +15,31 @@
     require_once("../classes/Address.php");
     require_once("../classes/Connection.php");
     require_once("../classes/CustomerAddress.php");
-    require_once("../classes/RegisteredUser.php");
     require_once("errorHandling.php");
     require_once("exceptionHandling.php");
 
-    // check if user is admin or not already logged on
-    if (!isset($_SESSION['role']) || (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'))
+    createHead(true, "Legoshop | Add address", ['checkout'], NULL);
+    // Check user role and shopping bag
+    if (isset($_SESSION['role']) && ($_SESSION['role'] === "customer" || $_SESSION['role'] === "admin")
+        && array_sum($_SESSION['bag']['amount']) != 0)
     {
-        // Create db connection
+        // create database connection
         $connection = new Connection();
 
         // Define variables and set to empty values
-        $firstname = $surname = $email = $passw = "";
-        $firstnameErr = $surnameErr = $emailErr = $passwErr = "";
-        $street = $hNumber = $box = $postalCode = $city = $country = "";
-        $streetErr = $hNumberErr = $boxErr = $postalCodeErr = $cityErr = $countryErr = "";
+        $tao = $street = $hNumber = $box = $postalCode = $city = $country = "";
+        $taoErr = $streetErr = $hNumberErr = $boxErr = $postalCodeErr = $cityErr = $countryErr = "";
         // Get possible countries to ship to
         $countryArr = Address::getShipCountries($connection);
 
         // Form validation
-        if (isset($_POST['register']))
+        if (isset($_POST['addAddress']))
         {
-            // Check firstname
-            $firstname = cleanInput($_POST['firstname']);
-            if (!empty($firstnameErr = RegisteredUser::check("m_firstname", $firstname)))
+            // Check tao
+            $tao = cleanInput($_POST['tao']);
+            if (!empty($taoErr = CustomerAddress::check("m_tao", $tao)))
             {
-                $firstname = "";
-            }
-            // Check surname
-            $surname = cleanInput($_POST['surname']);
-            if (!empty($surnameErr = RegisteredUser::check("m_surname", $surname)))
-            {
-                $surname = "";
-            }
-            // Check email
-            $email = cleanInput($_POST['email']);
-            if (!empty($emailErr = RegisteredUser::check("m_email", $email)))
-            {
-                $email="";
-            }
-            // Check password
-            $passw = trim($_POST['passw']); // password will be hashed
-            if(!empty($passwErr = RegisteredUser::check("m_password", $passw)))
-            {
-                $passw = "";
+                $tao = "";
             }
             // Check street
             $street = cleanInput($_POST['street']);
@@ -98,40 +79,25 @@
             }
 
             // If there are no errors, add user and address to database.
-            if (empty($firstnameErr) && empty($surnameErr) && empty($emailErr) && empty($passwErr)
-                && empty($streetErr) && empty($hNumberErr) && empty($boxErr) && empty($postalCodeErr)
-                && empty($cityErr) && empty($countryErr))
+            if (empty($taoErr) && empty($streetErr) && empty($hNumberErr) && empty($boxErr)
+                && empty($postalCodeErr) && empty($cityErr) && empty($countryErr))
             {
                 $address = new Address($street, $hNumber, $postalCode, $city, $country, $box);
                 list($addressErr, $addressID) = $address->addToDB($connection);
                 if (empty($addressErr))
                 {
-                    $registeredUser = new RegisteredUser($firstname, $surname, $email, $passw);
-                    list($registerErr, $userID) = $registeredUser->addToDB($connection);
-                    if (empty($registerErr))
+                    $customerAddress = new CustomerAddress((int)$_SESSION['userID'], (int)$addressID, true, false, $tao);
+                    list($customerAddressErr, $customerAddressID) = $customerAddress->addToDB($connection);
+                    if (empty($customerAddressErr))
                     {
-                        $customerAddress = new CustomerAddress((int)$userID, (int)$addressID, true, true);
-                        list($customerAddressErr, $customerAddressID) = $customerAddress->addToDB($connection);
-                        if (empty($customerAddressErr))
-                        {
-                            // Show message page
-                            createMessagePage(["Your Lego account has been created.", "You can now sign in."],
-                                null, false, "../index.php", "Back to home page");
-                            die();
-                        }
-                        else
-                        {
-                            // User set to non-active, as registration is not complete
-                            $registeredUser->setNonActive($connection);
-                            // show error page
-                            createErrorPage(["The registration is not complete.", "Please contact the Legoshop administrator."]);
-                            die();
-                        }
+                        // Go back to checkout
+                        header("Location: checkout.php");
+                        die();
                     }
                     else
                     {
                         // show error page
-                        createErrorPage([$registerErr]);
+                        createErrorPage(["The shipping address could not be added."]);
                         die();
                     }
                 }
@@ -142,44 +108,24 @@
                     die();
                 }
             }
-            unset($_POST['register']);
+            unset($_POST['addAddress']);
         }
 
-        // close db connection
-        $connection->close();
-
         // Show form
-        createHead(true, "Legoshop | register", ["register"], ["register"]);
-        if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') createHeader(true, $_SESSION['firstname'], true);
-        else createHeader(true, NULL, false);
+        createHead(true, "Legoshop | Add address", ["register"], ["addAddress"]);
+        createHeader(true, $_SESSION['firstname'], $_SESSION['role'] === "admin");
 ?>
         <div class="center">
-            <h1>Create a Lego account</h1>
+            <h1>Add a shipping address</h1>
         </div> <!-- end center -->
         <hr />
         <div class="center">
-            <form id="inputform" action="<?php echo(htmlspecialchars($_SERVER['PHP_SELF'])); ?>" method="post" onSubmit="return checkRegister()">
-                <p><label for="firstname">First name:</label></p>
+            <form id="inputform" action="<?php echo(htmlspecialchars($_SERVER['PHP_SELF'])); ?>" method="post" onSubmit="return checkAddress()">
+                <p><label for="tao">To the attention off:</label></p>
                 <p>
-                    <input class="textinput" id="firstname" type="text" name="firstname" value="<?php echo(htmlspecialchars($firstname)); ?>" autofocus />
-                    <span id="firstnameErr" class="red">* <?php echo($firstnameErr); ?></span>
+                    <input class="textinput" id="tao" type="text" name="tao" value="<?php echo(htmlspecialchars($tao)); ?>" autofocus />
+                    <span id="taoErr" class="red"> <?php echo($taoErr); ?></span>
                 </p>
-                <p class="topmargin"><label for="surname">Surname:</label></p>
-                <p>
-                    <input class="textinput" id="surname" type="text" name="surname" value="<?php echo(htmlspecialchars($surname)); ?>" />
-                    <span id="surnameErr" class="red">* <?php echo($surnameErr); ?></span>
-                </p>
-                <p class="topmargin"><label for="email">E-mail address:</label></p>
-                <p>
-                    <input class="textinput" id="email" type="text" name="email" value="<?php echo(htmlspecialchars($email)); ?>" />
-                    <span id="emailErr" class="red">* <?php echo($emailErr); ?></span>
-                </p>
-                <p class="topmargin"><label for="passw">Password:</label></p>
-                <p>
-                    <input class="textinput" id="passw" type="password" name="passw" />
-                    <span id="passwErr" class="red">* <?php echo($passwErr); ?></span>
-                </p>
-                <p class="smallfont">Use at least 8 characters, containing 1 number, 1 lower and 1 upper case letter.</p>
                 <p class="topmargin"><label for="street">Street:</label></p>
                 <p>
                     <input class="textinput" id="street" type="text" name="street" value="<?php echo(htmlspecialchars($street)); ?>" />
@@ -217,22 +163,26 @@
                             }
                         ?>
                     </select>
+                    
                     <span id="countryErr" class="red">* <?php echo($countryErr); ?></span>
                 </p>
                 <div class="buttonbox">
-                    <input class="button" type="submit" name="register" value="Register" />
-                    <a class="button" href="home.php">Cancel</a>
+                    <input class="button" type="submit" name="addAddress" value="Add shipping address" />
+                    <a class="button" href="checkout.php">Cancel</a>
                     <input class="button" type="reset" value="Reset">
                     <p class="spacer"></p>
                 </div>
             </form>
         </div> <!-- end center -->
 <?php
+        // close database connection
+        $connection->close();
+         
         createFooter(true);
-    }
-    else
-    {
-        // User should not be on this page
-        header("Location: ../index.php");
-    }
+     }
+     else
+     {
+         // Session variable is not set, role does not comply or shopping bag is empty: user should not be on this page
+         header("Location: ../index.php");
+     }
 ?>

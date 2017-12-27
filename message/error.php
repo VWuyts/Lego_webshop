@@ -12,10 +12,10 @@
 
 require '../php/functions.php';
 createHead(false, 'Legoshop | error', ['message'], ['message']);
-createHeader(false, false, false);
+createHeader(false, NULL, false);
 ?>
 	<div class='center'>
-		<p class='message'>An unexpected error has occurred.</p>
+		<p class='message'>Product number, product name, price, minimum age AND description are required.</p>
 		<p class='message'>You will be redirected to the home page.</p>
 		<p><a href='../index.php'>Back to home page</a></p>
 	</div> <!-- end center -->

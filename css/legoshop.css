@@ -16,6 +16,9 @@
 	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 	color:#2c2c2c;
 }
+.bold{
+	font-weight: bold;
+}
 .center{
 	margin: 0px auto;
     min-width: 805px;
@@ -40,6 +43,11 @@ a{
 h1{
 	padding-bottom: 30px;
 	font-size: 25px;
+	font-weight: bold;
+}
+h2{
+	padding: 20px 0px;
+	font-size: 20px;
 	font-weight: bold;
 }
 hr{
@@ -160,9 +168,6 @@ hr{
 	bottom: 6px;
 }
 .linkBtn{
-	border: none;
-	background-color: transparent;
-	font-family: inherit;
 	font-size: 16px;
 	font-weight: bold;
 	padding: 0px 15px;

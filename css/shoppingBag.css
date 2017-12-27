@@ -1,0 +1,68 @@
+/* Lego Webshop
+ *
+ * Lab assignment for course PHP & MySQL 2017
+ * Thomas More campus De Nayer
+ * Bachelor Elektronica-ICT -- Application Development
+ * 
+ * Véronique Wuyts
+ *
+ * Stylesheet for shopping bag page
+ */
+
+table{
+    width: 80%;
+    margin: 0px auto;
+}
+table img{
+    height: 90px;
+}
+td, th{
+    vertical-align: middle;
+}
+th{
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f2f2f2;
+}
+.button{
+    font-size: 14px;
+    line-height: 20px;
+    color: #fff;
+    background-color: #06c;
+    border: 1px solid #004d99;
+    border-radius: 3px;
+    padding: 5px 30px;
+    margin-top: 300px;
+}
+.button:hover{
+    background-color: #004d99;
+}
+.btnBox{
+    float: right;
+    margin: 40px 100px 0px 0px;
+}
+.marginLeft{
+    margin-left: 40px;
+}
+.miniBtn{
+    font-weight: bold;
+    color: #fff;
+    background-color: #06c;
+    border: 1px solid #004d99;
+    border-radius: 3px;
+    width: 28px;
+}
+.shipping, .total{
+    height: 40px;
+    border-top: 2px solid #f2f2f2;
+}
+.tdCenter{
+    text-align: center;
+}
+.total{
+    font-weight: bold;
+    font-size: 120%;
+}
+.right{
+    text-align: right;
+}

@@ -11,13 +11,20 @@
  */
 
     session_start();
-    if (isset($_SESSION['role']) && $_SESSION['role'] === "regular")
-    {
-        require_once("functions.php");
-        require_once("../classes/RegisteredUser.php");
+    require_once("functions.php");
+    require_once("errorHandling.php");
+    require_once("exceptionHandling.php");
+    require_once("../classes/RegisteredUser.php");
+    require_once("../classes/Connection.php");
 
+    // check if user is not already logged on
+    if (!isset($_SESSION['role']))
+    {
         createHead(true, "Legoshop | login", ["login"], ["login"]);
         createHeader(true, NULL, false);
+
+        // Create db connection
+        $connection = new Connection();
 
         // Define variables and set to empty value
         $email = $passw = "";
@@ -38,6 +45,7 @@
             {
                 // Check password
                 $passw = trim($_POST['passw']);
+                // If the password does not comply, there is no need to check the database
                 if(!empty($passwErr = RegisteredUser::check("password", $passw)))
                 {
                     $passw = "";
@@ -46,12 +54,18 @@
                 else
                 {
                     // Check database
-                    list($err, $userID, $firstname, $role) = RegisteredUser::checkLogin($email, $passw, $config);
+                    list($err, $userID, $firstname, $role) = RegisteredUser::checkLogin($email, $passw, $connection);
                     if ($err === "")
                     {
                         $_SESSION['userID'] = $userID;
                         $_SESSION['firstname'] = $firstname;
                         $_SESSION['role'] = $role;
+                        $_SESSION['bag'] = array(
+                            'productno' => array(),
+                            'amount' => array(),
+                            'pName' => array(),
+                            'price' => array(),
+                        );
 
                         header("Location: ../index.php");
                         die();
@@ -59,23 +73,24 @@
                 }
             }
             unset($_POST['submitLogin']);
+
+            // close db connection
+            $connection->close();
         }
         
 ?>
     <div class="center">
-        <h1>Login to your Lego account</h1>
+        <h1>Sign in to your Lego account</h1>
     </div> <!-- end center -->
     <hr />
     <div id='login'>
-        <p id='err'>&nbsp;<?php echo($err); ?></p>
+        <p id='err'><?php echo($err); ?></p>
         <form action='<?php echo(htmlspecialchars($_SERVER['PHP_SELF'])); ?>' method='post' onSubmit='return checkLogin()'>
             <p><label for='email'>E-mail:</label></p>
-		    <p><input class='textinput' id='email' type='text' name='email' /></p>
+		    <p><input class='textinput' id='email' type='text' name='email' autofocus /></p>
 		    <p class='topmargin'><label for='passw'>Password:</label></p>
 		    <p><input class='textinput' id='passw' type='password' name='passw' />
-		    <p>
-		        <input class='button' type='submit' name='submitLogin' value='Log in' />
-            </p>
+		    <p><input class='button' type='submit' name='submitLogin' value='Log in' /></p>
             <p class="spacer"></p>
         </form>
     </div> <!-- end login -->

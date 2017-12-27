@@ -11,21 +11,34 @@
  */
 
     session_start();
-    require_once("php/functions.php");
+    require_once("functions.php");
+    require_once("errorHandling.php");
+    require_once("exceptionHandling.php");
     
     // Check user role
     if (isset($_SESSION['role']) && $_SESSION['role'] === "admin")
     {
-        require_once("functions.php");
-        createHead(true, "Legoshop | admin", NULL, NULL);
+        createHead(true, "Legoshop | admin", ['admin'], NULL);
         createHeader(true, $_SESSION['firstname'], true);
-
+?>
+        <div class="center">
+            <h1>Administrator functions</h1>
+        </div> <!-- end center -->
+        <hr />
+        <div class="center">
+            <div class='btnBox'>
+                <p><a class="button" href="adminUsers.php">Change or delete user</a></p>
+                <p><a class="button" href="register.php">Add user</a></p>
+                <p><a class="button" href="adminProduct.php">Change or delete product</a></p>
+                <p><a class="button" href="adminProductAdd.php">Add product</a></p>
+            </div>
+        </div>
+<?php   
         createFooter(true);
     }
     else
     {
-        // User is not an admin and should not be on this page
+        // Session variable is not set or role does not comply: user should not be on this page
         header("Location: ../index.php");
     }
-
 ?>

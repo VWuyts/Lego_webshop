@@ -10,8 +10,8 @@
  * class CustomerAddress
  */
 
-require_once("Connection.php");
 require_once("../php/errorhandling.php");
+require_once("../php/exceptionHandling.php");
 
 class CustomerAddress
 {
@@ -30,7 +30,7 @@ class CustomerAddress
     // constructor
     public function __construct($p_userID, $p_addressID ,$p_isActive=true, $p_isInvoice=true, $p_tao=NULL, $p_custAddressID=NULL)
     {
-        if (empty(self::check("userID", $p_userID)))
+        if (empty(self::check("m_userID", $p_userID)))
         {
             $this->m_userID = $p_userID;
         }
@@ -38,7 +38,7 @@ class CustomerAddress
         {
             $this->m_userID = NULL;
         }
-        if (empty(self::check("addressID", $p_addressID)))
+        if (empty(self::check("m_addressID", $p_addressID)))
         {
             $this->m_addressID = $p_addressID;
         }
@@ -46,7 +46,7 @@ class CustomerAddress
         {
             $this->m_addressID = NULL;
         }
-        if (empty(self::check("isActive", $p_isActive)))
+        if (empty(self::check("m_isActive", $p_isActive)))
         {
             $this->m_isActive = $p_isActive;
         }
@@ -54,15 +54,15 @@ class CustomerAddress
         {
             $this->m_isActive = true;
         }
-        if (empty(self::check("isInvoice", $p_isInvoice)))
+        if (empty(self::check("m_isInvoice", $p_isInvoice)))
         {
             $this->m_isInvoice = $p_isInvoice;
         }
         else
         {
-            $this->m_isInvoice = NULL;
+            $this->m_isInvoice = false;
         }
-        if (empty(self::check("tao", $p_tao)))
+        if (empty(self::check("m_tao", $p_tao)))
         {
             $this->m_tao = $p_tao;
         }
@@ -70,7 +70,7 @@ class CustomerAddress
         {
             $this->m_tao = NULL;
         }
-        if (empty(self::check("custAddressID", $p_custAddressID)))
+        if (empty(self::check("m_custAddressID", $p_custAddressID)))
         {
             $this->m_custAddressID = $p_custAddressID;
         }
@@ -87,24 +87,24 @@ class CustomerAddress
         {
             switch ($p_property)
             {
-                case "userID":
-                    $this->m_userID = $p_value;
-                    break;
-                case "addressID":
-                    $this->m_addressID = $p_value;
-                    break;
-                case "isActive":
-                    $this->m_isActive = $p_value;
-                    break;
-                case "isInvoice":
-                    $this->m_isInvoice = $p_value;
-                    break;
-                case "tao":
-                    $this->m_tao = $p_value;
-                    break;
-                case "custAddressID":
-                    $this->m_custAddressID = $p_value;
-                    break;
+            case "m_userID":
+                $this->m_userID = $p_value;
+                break;
+            case "m_addressID":
+                $this->m_addressID = $p_value;
+                break;
+            case "m_isActive":
+                $this->m_isActive = $p_value;
+                break;
+            case "m_isInvoice":
+                $this->m_isInvoice = $p_value;
+                break;
+            case "m_tao":
+                $this->m_tao = $p_value;
+                break;
+            case "m_custAddressID":
+                $this->m_custAddressID = $p_value;
+                break;
             }
         }
     } // end function set
@@ -114,24 +114,24 @@ class CustomerAddress
     {
         switch ($p_property)
         {
-            case "userID":
-                $result = $this->m_userID;
-                break;
-            case "addressID":
-                $result = $this->m_addressID;
-                break;
-            case "isActive":
-                $result = $this->m_isActive;
-                break;
-            case "isInvoice":
-                $result = $this->m_isInvoice;
-                break;
-            case "tao":
-                $result = $this->m_tao;
-                break;
-            case "custAddressID":
-                $result = $this->m_custAddressID;
-                break;
+        case "userID":
+            $result = $this->m_userID;
+            break;
+        case "m_addressID":
+            $result = $this->m_addressID;
+            break;
+        case "m_isActive":
+            $result = $this->m_isActive;
+            break;
+        case "m_isInvoice":
+            $result = $this->m_isInvoice;
+            break;
+        case "m_tao":
+            $result = $this->m_tao;
+            break;
+        case "m_custAddressID":
+            $result = $this->m_custAddressID;
+            break;
         }
 
         return $result;
@@ -139,13 +139,11 @@ class CustomerAddress
 
     /*
      * add the CustomerAddress to the database
-     * The CustomerAddress will be added with isInvoice = true and isActive = true.
      * The function returns a numerical array('error message', 'primary key').
      * If the CustomerAddress is not in the database, a non-empty error message is returned.
      */
-    public function addToDB($config)
+    public function addToDB($connection)
     {
-        $connection = new Connection($config);
         if (empty($this->m_userID) || empty($this->m_addressID))
         {
             $errMessage = "userID and addressID are required.";
@@ -153,20 +151,64 @@ class CustomerAddress
         }
         elseif (($primaryKey = $this->getPrimaryKey($connection)) === false)
         {
-            $query = "INSERT INTO customerAddress (userID, addressID, isActive, isInvoice, tao) ".
-            "VALUES ('". $this->m_userID ."', '". $this->m_addressID ."', '". $this->m_isActive ."', '".
-                $this->m_isInvoice ."', '". $this->m_tao ."');";
-            if ($connection->queryBool($query))
+            $query = "INSERT INTO customerAddress (userID, addressID, isActive, isInvoice, tao) 
+                VALUES (?, ?, ?, ?, ?)";
+            try
+            {
+                if (($stmt = $connection->prepare($query)) === false)
+                {
+                    throw new MySQLException("Preparation of query failed."); 
+                }
+                if (($stmt->bind_param('iiiis', $this->m_userID, $this->m_addressID, $this->m_isActive,
+                        $this->m_isInvoice, $this->m_tao)) === false)
+                {
+                    throw new MySQLException("Binding parameters failed."); 
+                }
+                if (($stmt->execute()) === false)
+                {
+                    throw new MySQLException("Query execution failed."); 
+                }
+            } catch (MySQLException $e)
+            {
+                $e->HandleException();
+                die();
+            }
+            if ($stmt->affected_rows === 1)
             {
                 $errMessage = "";
-                $primaryKey = $this->getPrimaryKey($connection);
+                $primaryKey =  $this->getPrimaryKey($connection);
             }
+            else
+            {
+                $errMessage = "Customer address could not be added to database";
+            }
+            $stmt->close();
         }
-        else
+        else // customerAddress is already in db, update tao field
         {
+            $query = "UPDATE customerAddress SET tao = ? WHERE custAddressID = ?";
+            try
+            {
+                if (($stmt = $connection->prepare($query)) === false)
+                {
+                    throw new MySQLException("Preparation of query failed."); 
+                }
+                if (($stmt->bind_param($this->m_tao, $primaryKey)) === false)
+                {
+                    throw new MySQLException("Binding parameters failed."); 
+                }
+                if (($stmt->execute()) === false)
+                {
+                    throw new MySQLException("Query execution failed."); 
+                }
+            } catch (MySQLException $e)
+            {
+                $e->HandleException();
+                die();
+            }
             $errMessage = "";
+            $stmt->close();
         }
-        $connection->close();
 
         return array($errMessage, $primaryKey);
     } // end function addToDB
@@ -179,44 +221,43 @@ class CustomerAddress
     {
         $errMessage = "";
         
-        if (empty($p_value) && $p_property !== "tao")
+        if (empty($p_value) && $p_property !== "m_tao")
         {
-            $errMessage = ucfirst($p_property) . " is required";
+            $errMessage = ucfirst(substr($p_property, 2)) . " is required";
         }
         else
         {
             switch ($p_property)
             {
-                case "userID":
-                case "addressID":
-                    if ($p_value < 0)
-                    {
-                        $errMessage = "Has to be greater than zero";
-                    }
-                    break;    
-                case "isActive":
-                case "isInvoice":
-                    if (!is_bool($p_value))
-                    {
-                        $errMessage = "Has to be true or false";
-                    }
-                    break;
-                case "tao":
-                    if (strlen($p_value) < self::MIN_TAO)
-                    {
-                        $errMessage = "At least ". self::MIN_TAO ." characters required";
-                    }
-                    elseif (strlen($p_value) > self::MAX_TAO)
-                    {
-                        $errMessage = "Maximum ". self::MAX_TAO ." characters allowed";
-                    }
-                    break;
-                case "custAddressID":
-                    if ($p_value < 0)
-                    {
-                        $errMessage = "Has to be greater than or equal to 0";
-                    }
-                    break;
+            case "m_userID":
+            case "m_addressID":
+            case "m_custAddressID":
+                if (filter_var($p_value, FILTER_VALIDATE_INT) === false)
+                {
+                    $errMessage = "Invalid integer input";
+                }
+                elseif ($p_value < 0)
+                {
+                    $errMessage = "Has to be greater than zero";
+                }
+                break;    
+            case "m_isActive":
+            case "m_isInvoice":
+                if (filter_var($p_value, FILTER_VALIDATE_BOOLEAN) === false)
+                {
+                    $errMessage = "Has to be true or false";
+                }
+                break;
+            case "m_tao":
+                if (!empty($p_value) && strlen($p_value) < self::MIN_TAO)
+                {
+                    $errMessage = "At least ". self::MIN_TAO ." characters required";
+                }
+                elseif (!empty($p_value) && strlen($p_value) > self::MAX_TAO)
+                {
+                    $errMessage = "Maximum ". self::MAX_TAO ." characters allowed";
+                }
+                break;
             }
         }
 
@@ -229,18 +270,42 @@ class CustomerAddress
      */
     private function getPrimaryKey($connection)
     {
-        $query = "SELECT custAddressID FROM customerAddress WHERE userID='".
-            $this->m_userID ."' AND addressID='". $this->m_addressID ."'";
-        $result = $connection->queryResult($query);
-        $noRows = $result->num_rows;
-        if ($noRows === 0)
+        $query = "SELECT custAddressID FROM customerAddress
+            WHERE userID = ? AND addressID = ?";
+        try
         {
-            $result->close();
-            return false;
+            if (($stmt = $connection->prepare($query)) === false)
+            {
+                throw new MySQLException("Preparation of query failed."); 
+            }
+            if (($stmt->bind_param('ii', $this->m_userID, $this->m_addressID)) === false)
+            {
+                throw new MySQLException("Binding parameters failed."); 
+            }
+            if (($stmt->execute()) === false)
+            {
+                throw new MySQLException("Query execution failed."); 
+            }
+            if (($stmt->store_result()) === false)
+            {
+                throw new MySQLException("Query result storage failed.");
+            }
+        } catch (MySQLException $e)
+        {
+            $e->HandleException();
+            die();
         }
-        $row = $result->fetch_array();
-        $primaryKey = $row['custAddressID'];
-        $result->close();
+        if ($stmt->num_rows === 0)
+        {
+            $primaryKey = false;
+        }
+        else
+        {
+            $stmt->bind_result($primaryKey);
+            $row = $stmt->fetch();
+        }
+        $stmt->free_result();
+        $stmt->close();
 
         return $primaryKey;
     } // end function getPrimaryKey
