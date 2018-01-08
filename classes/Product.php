@@ -454,7 +454,8 @@ abstract class Product
             {
                 throw new MySQLException("Preparation of query failed."); 
             }
-            if (($stmt->bind_param('i', $this->m_pName)) === false)
+            //if (($stmt->bind_param('i', $this->m_pName)) === false)
+            if (($stmt->bind_param('s', $this->m_pName)) === false)
             {
                 throw new MySQLException("Binding parameters failed."); 
             }
