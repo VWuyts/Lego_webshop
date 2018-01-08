@@ -139,7 +139,7 @@ class BuildingSet extends Product
                             throw new MySQLException("Preparation of query failed."); 
                         }
                         if (($stmt->bind_param('isdisiiii', $this->m_productno, $this->m_pName, $this->m_price,
-                            $this->m_minAge, $this->m_description, $this->m_pieces, $this->m_themeID, $this->m_sortID, $this->m_label)) === false)
+                            $this->m_minAge, $this->m_description, $this->m_pieces, $this->m_themeID, $this->m_sortID, $this->m_labelID)) === false) // corrected m_label
                         {
                             throw new MySQLException("Binding parameters failed."); 
                         }
@@ -463,6 +463,10 @@ class BuildingSet extends Product
                 elseif ($p_value <= 0)
                 {
                     $errMessage = "Should be greater than zero";
+                }
+                else // reset errMessage, added
+                {
+                    $errMessage = "";
                 }
                 break;
             }
