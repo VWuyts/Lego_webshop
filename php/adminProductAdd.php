@@ -197,9 +197,8 @@
                 </p>
                 <p class="topmargin"><label for="description">Description:</label></p>
                 <p>
-                    <textarea class="textinput" id="description" name="description">
-                        <?php echo(htmlspecialchars($description)); ?>
-                    </textarea>
+                    <textarea class="textinput" id="description" name="description"><?php echo(htmlspecialchars($description)); ?></textarea>
+                    <!-- removed newlines -->
                     <span id="descriptionErr" class="red">* <?php echo($descriptionErr); ?></span>
                 </p>
                 <p class="topmargin"><label for="category">Category:</label></p>
