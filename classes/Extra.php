@@ -48,6 +48,7 @@ class Extra extends Product
      */
     public function addToDB($connection)
     {
+        /* disabled extra check
         if (empty($this->m_productno) || empty($this->m_pName) || empty($this->m_price)  || empty($this->m_minAge) 
             || empty($this->m_description))
         {
@@ -55,7 +56,8 @@ class Extra extends Product
             $primaryKey = NULL;
         }
         else
-        {
+        {*/
+            $errMessage = "";
             // Check if Extra is not yet in the database
             list($primaryKey, $isActive) =  $this->getPrimaryKey($connection);
             if ($primaryKey === false)
@@ -72,7 +74,7 @@ class Extra extends Product
                 {
                     $query = "INSERT INTO product 
                         (productno, pName, price, minAge, description, isActive, category, pieces, themeID) 
-                    VALUES (?, ?, ?, ?, ?, true, 'sets', ?, ?)";
+                    VALUES (?, ?, ?, ?, ?, true, 'extras', ?, ?)"; // corrected 'sets' into 'extras'
                     try
                     {
                         if (($stmt = $connection->prepare($query)) === false)
@@ -129,7 +131,7 @@ class Extra extends Product
                     $stmt->close();
                 }
             }
-        }
+        //}
 
         return array($errMessage, $primaryKey);
     } // end function addToDB
