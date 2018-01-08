@@ -26,7 +26,8 @@ class Orders
     public function __construct($p_isPayed, $p_userID, $p_invoiceAddressID, $p_shipAddressID, $p_shipCostID)
     {
         $this->m_orderno = NULL;
-        $this->m_orderDate = getdate();
+        //$this->m_orderDate = getdate();
+        $this->m_orderDate = date('Y-m-d');
         if (empty(self::check("m_isPayed", $p_isPayed))) $this->m_isPayed = $p_isPayed;
         else $this->m_isPayed = false;
         $this->m_orderStatus = "processing";
