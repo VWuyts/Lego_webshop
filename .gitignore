@@ -1,11 +1,5 @@
-# Monolog class files
-classesExternal/Monolog
-
-# Psr class files
-classesExternal/Psr
-
 # Log files
-errorlog
+errorLog/error.log
 
 # Visual Studio Code files
 .vscode
