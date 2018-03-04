@@ -19,7 +19,7 @@ class ErrorLog
     private $errLine;
 
     // constant
-    private const LOG_FILE = 'C:/xampp/htdocs/PHP&MySQL/Lego_webshop/errorLog/error.log';
+    private const LOG_FILE = "./../errorLog/error.log";
 
     // constructor
     public function __construct($errno = 0, $errMsg = "", $errFile = "", $errLine = "")
