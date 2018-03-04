@@ -260,7 +260,7 @@
 		echo("\t\t\t\t<a href='http://www.thomasmore.be/' title='to Thomas More homepage' target='_blank'>\n");
 		echo("\t\t\t\t\t<img id='logotm' src='". (is_null($inDirPhp) ? "" : "../") ."images/tm_vignet_web.png' alt='logo Thomas More' />\n");
 		echo("\t\t\t\t</a>\n");
-		echo("\t\t\t\t<p>Copyright &copy; 2017 V&eacute;ronique Wuyts</p>\n");
+		echo("\t\t\t\t<p>Copyright &copy; 2017-2018 V&eacute;ronique Wuyts</p>\n");
 		echo("\t\t\t\t<p>Professionele Bachelor Elektronica-ICT</p>\n");
 		echo("\t\t\t\t<p>Thomas More Mechelen-Antwerpen vzw &ndash; Campus De Nayer</p>\n");
 		echo("\t\t\t</div>\n");
@@ -268,7 +268,7 @@
 		echo("\t\t\t\t<a href='https://www.lego.com' title='To LEGO.com' target='_blank'>\n");
 		echo("\t\t\t\t\t<img id='logolego' src='". (is_null($inDirPhp) ? "" : "../") ."images/lego-logo.svg' alt='logo Lego' />\n");
 		echo("\t\t\t\t</a>\n");
-		echo("\t\t\t\t<p>Last update 27-12-2017</p>\n");
+		echo("\t\t\t\t<p>Last update 04/-03-2018</p>\n");
 		echo("\t\t\t</div>\n");
 		echo("\t\t\t<p class='spacer'></p>\n");
 		echo("\t\t</div> <!-- end red part of footer -->\n");
