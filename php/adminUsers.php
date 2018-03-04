@@ -73,9 +73,17 @@
                         echo("\t\t\t\t\t\t<td>". htmlspecialchars($usersArray[$i]->m_email) ."</td>\n");
                         echo("\t\t\t\t\t\t<td>". $usersArray[$i]->m_role ."</td>\n");
                         echo("\t\t\t\t\t\t<td>". ($isActive > 0 ? "true" : "false") ."</td>\n");
-                        echo("\t\t\t\t\t\t<td><a href='adminUsers.php?role=". $userID ."'>Change role</a></td>\n");
-                        echo("\t\t\t\t\t\t<td><a href='adminUsers.php?active=". $userID ."'>".
-                            ($isActive ? "Inactivate" : "Activate") ."</a></td>\n");
+                        if ($userID == $_SESSION['userID'])
+                        {
+                            echo("\t\t\t\t\t\t<td><span class='inactive'>Change role</span></td>\n");
+                            echo("\t\t\t\t\t\t<td><span class='inactive'>Inactivate</span></td>\n");
+                        }
+                        else
+                        {
+                            echo("\t\t\t\t\t\t<td><a href='adminUsers.php?role=". $userID ."'>Change role</a></td>\n");
+                            echo("\t\t\t\t\t\t<td><a href='adminUsers.php?active=". $userID ."'>".
+                                ($isActive ? "Inactivate" : "Activate") ."</a></td>\n");
+                        }
                         echo("\t\t\t\t\t</tr>\n");
                     }   
                 ?>

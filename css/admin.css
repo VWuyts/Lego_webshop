@@ -42,6 +42,9 @@
 .floatR{
     float: right;
 }
+.inactive{
+    color: gray;
+}
 .marginRight{
     margin-right: 200px;
 }
