@@ -11,7 +11,6 @@ Structure of the Lego_webshop directory:
 
 Lego_webshop
 - classes
-- conf
 - css
 - errorLog
 - images
