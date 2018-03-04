@@ -20,7 +20,7 @@
 
 	/*
 	 * Function create Errorpage creates the default Legoshop error page and redirects to this page.
-	 * Parameter messageArray: array of strings; message(s) to be displayed on the error page
+	 * Parameter messageArray: array of strings; message(s) to be displayed on the error page, cannot be NULLL
 	 */
 	function createErrorPage($messageArray)
 	{
@@ -57,7 +57,7 @@
 
 	/* 
 	 * Function createMessagePage creates the default Legoshop message page and redirects to this page.
-	 * Parameter messageArray: array of strings; message(s) to be displayed on the message page
+	 * Parameter messageArray: array of strings; message(s) to be displayed on the message page, cannot be NULL
 	 * 			 user: string; the user which is logged on or null if no user is logged on
 	 * 			 isAdmin: boolean; has the logged on user access to the admin pages
 	 *			 php: string; the php page that is referenced in the link button
@@ -116,14 +116,20 @@
 		echo("\t<link href='". $dir ."favicon.ico' rel='icon' type='image/ico' />\n");
 		echo("\t<link href='". $dir ."css/reset_v2.css' rel='stylesheet' type='text/css' />\n");
 		echo("\t<link href='". $dir ."css/legoshop.css' rel='stylesheet' type='text/css' />\n");
-		for ($i = 0; $i < count($cssArray); $i++)
+		if (!is_null($cssArray)) // required for php 7.2
 		{
-			echo("\t<link href='". $dir ."css/". $cssArray[$i] .".css' rel='stylesheet' type='text/css' />\n");
+			for ($i = 0; $i < count($cssArray); $i++)
+			{
+				echo("\t<link href='". $dir ."css/". $cssArray[$i] .".css' rel='stylesheet' type='text/css' />\n");
+			}
 		}
 		echo("\t<script src='". $dir ."js/legoshop.js'></script>\n");
-		for	($i = 0; $i < count($scriptArray); $i++)
+		if (!is_null($scriptArray)) // required for php 7.2
 		{
-			echo("\t<script src='". $dir ."js/". $scriptArray[$i] .".js'></script>\n");
+			for	($i = 0; $i < count($scriptArray); $i++)
+			{
+				echo("\t<script src='". $dir ."js/". $scriptArray[$i] .".js'></script>\n");
+			}
 		}
 		echo("</head>\n\n");
 		echo("<body  onLoad='initialise();'>\n");
