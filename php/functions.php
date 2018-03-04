@@ -268,7 +268,7 @@
 		echo("\t\t\t\t<a href='https://www.lego.com' title='To LEGO.com' target='_blank'>\n");
 		echo("\t\t\t\t\t<img id='logolego' src='". (is_null($inDirPhp) ? "" : "../") ."images/lego-logo.svg' alt='logo Lego' />\n");
 		echo("\t\t\t\t</a>\n");
-		echo("\t\t\t\t<p>Last update 04/-03-2018</p>\n");
+		echo("\t\t\t\t<p>Last update 04-03-2018</p>\n");
 		echo("\t\t\t</div>\n");
 		echo("\t\t\t<p class='spacer'></p>\n");
 		echo("\t\t</div> <!-- end red part of footer -->\n");
