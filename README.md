@@ -1,5 +1,5 @@
 # Lego_webshop
-Lab assignment for course PHP &amp; MySQL 2017
+Lab assignment for course PHP &amp; MySQL 2017-2018
 
 Thomas More campus De Nayer
 
